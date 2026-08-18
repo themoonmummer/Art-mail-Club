@@ -135,9 +135,7 @@ function Gallery() {
 
 
       </main>
-
-
-      <Footer />
+<Footer variant="gallery" />
 
     </>
 

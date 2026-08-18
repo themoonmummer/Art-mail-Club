@@ -7,7 +7,8 @@ function Home() {
     <>
       <Navbar />
       <Hero />
-      <Footer />
+      <Footer variant="home" />
+
     </>
   );
 }

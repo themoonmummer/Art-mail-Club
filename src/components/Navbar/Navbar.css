@@ -242,10 +242,7 @@
 
 .navbar-subscription .navbar-logo h2,
 .navbar-subscription .navbar-links a {
-    color: #f6ead0;
-
-    text-shadow:
-        0 2px 10px rgba(45, 8, 15, 0.65);
+    color: #4a1b20 ;
 }
 
 .navbar-subscription .navbar-links a:hover {

@@ -1,0 +1,1204 @@
+/* =====================================================
+   SUBSCRIPTION PAGE
+===================================================== */
+
+.subscription {
+    min-height: 100vh;
+
+    padding:
+        110px 0 140px;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(255, 248, 238, 0.75),
+            transparent 45%
+        ),
+        #e8d6c0;
+
+    color: #4a3728;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   INTRO CONTENT
+===================================================== */
+
+.subscription-intro {
+    max-width: 760px;
+
+    margin:
+        0 auto 65px;
+
+    padding:
+        0 30px;
+
+    text-align: center;
+}
+
+.subscription-eyebrow {
+    margin:
+        0 0 16px;
+
+    color: #866246;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+}
+
+.subscription-intro h1 {
+    margin:
+        0 0 25px;
+
+    color: #493527;
+
+    font-family:
+        var(--font-heading);
+
+    font-size:
+        clamp(48px, 5vw, 72px);
+
+    line-height: 1.05;
+
+    font-weight: 500;
+}
+
+.subscription-intro-text {
+    max-width: 600px;
+
+    margin:
+        0 auto;
+
+    color: #806a55;
+
+    font-size: 17px;
+
+    line-height: 1.9;
+}
+
+
+/* =====================================================
+   CARD CAROUSEL
+===================================================== */
+
+.mail-carousel {
+    position: relative;
+
+    width: 100%;
+
+    height: 430px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   CARD STAGE
+===================================================== */
+
+.mail-cards {
+    position: relative;
+
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =====================================================
+   CARD BASE
+===================================================== */
+
+.mail-card {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 330px;
+    height: 300px;
+
+    padding: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    text-align: left;
+
+    border:
+        1px solid
+        rgba(91, 64, 42, 0.14);
+
+    border-radius: 20px;
+
+    background: #f0dfcc;
+
+    color: #4a3728;
+
+    box-shadow:
+        0 12px 28px
+        rgba(76, 52, 33, 0.08);
+
+    cursor: pointer;
+
+    transform-origin: center center;
+
+    transition:
+        transform 550ms
+            cubic-bezier(
+                0.22,
+                0.61,
+                0.36,
+                1
+            ),
+        opacity 450ms ease,
+        filter 450ms ease,
+        box-shadow 450ms ease;
+
+    will-change:
+        transform,
+        opacity;
+
+    font-family: inherit;
+
+    z-index: 1;
+}
+
+
+/* =====================================================
+   CARD — ACTIVE
+===================================================== */
+
+.mail-card.active {
+
+    width: 370px;
+
+    height: 335px;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        )
+        scale(1.04);
+
+    background: #f3e3d1;
+
+    border-color:
+        rgba(91, 64, 42, 0.23);
+
+    box-shadow:
+        0 25px 55px
+        rgba(76, 52, 33, 0.17);
+
+    opacity: 1;
+
+    filter: none;
+
+    z-index: 5;
+
+    cursor: default;
+}
+
+
+/* =====================================================
+   CARD — PREVIOUS
+===================================================== */
+
+.mail-card.previous {
+
+    transform:
+        translate(
+            calc(-50% - 390px),
+            -50%
+        )
+        scale(0.88);
+
+    opacity: 0.55;
+
+    filter:
+        saturate(0.65)
+        brightness(0.98);
+
+    z-index: 2;
+}
+
+
+/* =====================================================
+   CARD — NEXT
+===================================================== */
+
+.mail-card.next {
+
+    transform:
+        translate(
+            calc(-50% + 390px),
+            -50%
+        )
+        scale(0.88);
+
+    opacity: 0.55;
+
+    filter:
+        saturate(0.65)
+        brightness(0.98);
+
+    z-index: 2;
+}
+
+
+/* =====================================================
+   CARD — FAR / BACKGROUND
+===================================================== */
+
+.mail-card.far {
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        )
+        scale(0.72);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* =====================================================
+   CARD ICON
+===================================================== */
+
+.mail-card-icon {
+
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #d7b994;
+
+    color: #4a3728;
+
+    font-size: 27px;
+
+    margin-bottom: 28px;
+}
+
+
+/* ACTIVE ICON */
+
+.mail-card.active
+.mail-card-icon {
+
+    width: 66px;
+    height: 66px;
+
+    font-size: 31px;
+
+    background: #cfad89;
+}
+
+
+/* =====================================================
+   CARD NUMBER
+===================================================== */
+
+.mail-card-number {
+
+    color: #92775b;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+}
+
+
+/* =====================================================
+   CARD TITLE
+===================================================== */
+
+.mail-card-title {
+
+    color: #4a3728;
+
+    font-family:
+        var(--font-heading);
+
+    font-size: 27px;
+
+    line-height: 1.2;
+
+    font-weight: 500;
+}
+
+
+/* ACTIVE TITLE */
+
+.mail-card.active
+.mail-card-title {
+
+    font-size: 32px;
+}
+
+
+/* =====================================================
+   CARD SELECTED LABEL
+===================================================== */
+
+.mail-card-selected {
+
+    margin-top: auto;
+
+    padding:
+        7px 13px;
+
+    border-radius: 999px;
+
+    background: #d6b99a;
+
+    color: #6f5741;
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+
+/* =====================================================
+   CARD HOVER
+===================================================== */
+
+.mail-card.previous:hover,
+.mail-card.next:hover {
+
+    opacity: 0.85;
+
+    transform:
+        translate(
+            calc(-50% - 390px),
+            -50%
+        )
+        scale(0.92);
+}
+
+
+/*
+   Correct hover for NEXT
+*/
+
+.mail-card.next:hover {
+
+    transform:
+        translate(
+            calc(-50% + 390px),
+            -50%
+        )
+        scale(0.92);
+}
+
+
+/* =====================================================
+   CAROUSEL ARROWS
+===================================================== */
+
+.carousel-arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    z-index: 20;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(91, 64, 42, 0.18);
+
+    border-radius: 50%;
+
+    background: #d5b898;
+
+    color: #4a3728;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    transform:
+        translateY(-50%);
+
+    box-shadow:
+        0 8px 20px
+        rgba(76, 52, 33, 0.08);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.carousel-arrow:hover {
+
+    background: #c39e78;
+
+    transform:
+        translateY(-50%)
+        scale(1.06);
+
+    box-shadow:
+        0 12px 25px
+        rgba(76, 52, 33, 0.14);
+}
+
+.carousel-arrow-left {
+    left: 25px;
+}
+
+.carousel-arrow-right {
+    right: 25px;
+}
+
+
+/* =====================================================
+   DOTS
+===================================================== */
+
+.carousel-dots {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    margin:
+        25px 0 85px;
+}
+
+.carousel-dot {
+
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #b99b7b;
+
+    cursor: pointer;
+
+    transition:
+        width 0.3s ease,
+        background 0.3s ease;
+}
+
+.carousel-dot.active {
+
+    width: 25px;
+
+    border-radius: 999px;
+
+    background: #806044;
+}
+
+
+/* =====================================================
+   DETAIL CONTENT
+===================================================== */
+
+.subscription-detail {
+
+    max-width: 1000px;
+
+    margin:
+        0 auto;
+
+    padding:
+        0 30px;
+
+    animation:
+        detailReveal
+        500ms
+        ease;
+}
+
+
+@keyframes detailReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+   DETAIL INNER
+===================================================== */
+
+.subscription-detail-inner {
+
+    padding:
+        65px 70px;
+
+    background: #f2e1cf;
+
+    border:
+        1px solid
+        rgba(91, 64, 42, 0.14);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 20px 45px
+        rgba(76, 52, 33, 0.09);
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   DETAIL — EYEBROW
+===================================================== */
+
+.detail-eyebrow {
+
+    margin:
+        0 0 15px;
+
+    color: #866246;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+}
+
+
+/* =====================================================
+   DETAIL — HEADING
+===================================================== */
+
+.subscription-detail h2 {
+
+    max-width: 720px;
+
+    margin:
+        0 auto 22px;
+
+    color: #493527;
+
+    font-family:
+        var(--font-heading);
+
+    font-size:
+        clamp(35px, 4vw, 52px);
+
+    line-height: 1.15;
+
+    font-weight: 500;
+}
+
+
+/* =====================================================
+   DETAIL — DESCRIPTION
+===================================================== */
+
+.detail-description {
+
+    max-width: 700px;
+
+    margin:
+        0 auto 45px;
+
+    color: #806a55;
+
+    font-size: 16px;
+
+    line-height: 1.9;
+}
+
+
+/* =====================================================
+   DETAIL — ITEMS
+===================================================== */
+
+.detail-items {
+
+    max-width: 700px;
+
+    margin:
+        0 auto 45px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap:
+        0 30px;
+
+    text-align: left;
+
+    border-top:
+        1px solid
+        rgba(91, 64, 42, 0.12);
+}
+
+
+/* =====================================================
+   DETAIL — ITEM
+===================================================== */
+
+.detail-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding:
+        15px 0;
+
+    border-bottom:
+        1px solid
+        rgba(91, 64, 42, 0.10);
+
+    color: #594535;
+
+    font-size: 14px;
+}
+
+
+.detail-item-number {
+
+    color: #a08468;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   DETAIL — THEMES
+===================================================== */
+
+.detail-themes {
+
+    margin:
+        0 auto 35px;
+}
+
+
+.detail-themes h3 {
+
+    margin:
+        0 0 20px;
+
+    color: #4a3728;
+
+    font-family:
+        var(--font-heading);
+
+    font-size: 25px;
+
+    font-weight: 500;
+}
+
+
+/* =====================================================
+   THEME LIST
+===================================================== */
+
+.theme-list {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 9px;
+}
+
+
+/* =====================================================
+   THEME PILL
+===================================================== */
+
+.theme-pill {
+
+    padding:
+        9px 15px;
+
+    border:
+        1px solid
+        rgba(91, 64, 42, 0.16);
+
+    border-radius: 999px;
+
+    background: #dfc6a9;
+
+    color: #6f5741;
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   DETAIL — NOTE
+===================================================== */
+
+.detail-note {
+
+    max-width: 650px;
+
+    margin:
+        0 auto 30px;
+
+    color: #806a55;
+
+    font-family:
+        var(--font-heading);
+
+    font-size: 16px;
+
+    font-style: italic;
+
+    line-height: 1.8;
+}
+
+
+/* =====================================================
+   JOIN BUTTON
+===================================================== */
+
+.join-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding:
+        13px 23px;
+
+    border: none;
+
+    border-radius: 999px;
+
+    background: #6f4d31;
+
+    color: #f8efe5;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.join-button:hover {
+
+    background: #573b27;
+
+    transform:
+        translateY(-2px);
+}
+
+.join-button span {
+
+    font-size: 17px;
+}
+
+
+/* =====================================================
+   ENDING
+===================================================== */
+
+.subscription-ending {
+
+    padding:
+        110px 30px 20px;
+
+    text-align: center;
+}
+
+
+.subscription-ending p {
+
+    margin: 0;
+
+    color: #806a55;
+
+    font-family:
+        var(--font-heading);
+
+    font-size: 25px;
+
+    font-style: italic;
+}
+
+
+.subscription-ending span {
+
+    color: #6f4d31;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+
+    .mail-card {
+
+        width: 300px;
+
+        height: 280px;
+    }
+
+    .mail-card.active {
+
+        width: 340px;
+
+        height: 315px;
+    }
+
+    .mail-card.previous {
+
+        transform:
+            translate(
+                calc(-50% - 330px),
+                -50%
+            )
+            scale(0.84);
+    }
+
+    .mail-card.next {
+
+        transform:
+            translate(
+                calc(-50% + 330px),
+                -50%
+            )
+            scale(0.84);
+    }
+
+    .carousel-arrow-left {
+
+        left: 15px;
+    }
+
+    .carousel-arrow-right {
+
+        right: 15px;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .subscription {
+
+        padding-top: 85px;
+    }
+
+
+    .subscription-intro {
+
+        margin-bottom: 40px;
+    }
+
+
+    .subscription-intro h1 {
+
+        font-size: 46px;
+    }
+
+
+    .mail-carousel {
+
+        height: 360px;
+    }
+
+
+    .mail-card {
+
+        width: 250px;
+
+        height: 245px;
+
+        padding: 23px;
+    }
+
+
+    .mail-card.active {
+
+        width: 285px;
+
+        height: 270px;
+    }
+
+
+    .mail-card.previous {
+
+        transform:
+            translate(
+                calc(-50% - 245px),
+                -50%
+            )
+            scale(0.72);
+
+        opacity: 0.25;
+    }
+
+
+    .mail-card.next {
+
+        transform:
+            translate(
+                calc(-50% + 245px),
+                -50%
+            )
+            scale(0.72);
+
+        opacity: 0.25;
+    }
+
+
+    .mail-card-icon {
+
+        width: 48px;
+        height: 48px;
+
+        margin-bottom: 20px;
+
+        font-size: 22px;
+    }
+
+
+    .mail-card.active
+    .mail-card-icon {
+
+        width: 55px;
+        height: 55px;
+
+        font-size: 26px;
+    }
+
+
+    .mail-card-title {
+
+        font-size: 23px;
+    }
+
+
+    .mail-card.active
+    .mail-card-title {
+
+        font-size: 27px;
+    }
+
+
+    .carousel-arrow {
+
+        width: 43px;
+        height: 43px;
+
+        font-size: 15px;
+    }
+
+
+    .carousel-arrow-left {
+
+        left: 5px;
+    }
+
+
+    .carousel-arrow-right {
+
+        right: 5px;
+    }
+
+
+    .subscription-detail-inner {
+
+        padding:
+            42px 24px;
+    }
+
+
+    .detail-items {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .subscription-ending {
+
+        padding-top: 80px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 420px) {
+
+    .subscription-intro h1 {
+
+        font-size: 40px;
+    }
+
+
+    .mail-carousel {
+
+        height: 330px;
+    }
+
+
+    .mail-card {
+
+        width: 220px;
+
+        height: 225px;
+
+        padding: 20px;
+    }
+
+
+    .mail-card.active {
+
+        width: 250px;
+
+        height: 250px;
+    }
+
+
+    .mail-card.previous {
+
+        transform:
+            translate(
+                calc(-50% - 210px),
+                -50%
+            )
+            scale(0.68);
+    }
+
+
+    .mail-card.next {
+
+        transform:
+            translate(
+                calc(-50% + 210px),
+                -50%
+            )
+            scale(0.68);
+    }
+
+
+    .mail-card-title {
+
+        font-size: 20px;
+    }
+
+
+    .mail-card.active
+    .mail-card-title {
+
+        font-size: 23px;
+    }
+
+
+    .subscription-detail {
+
+        padding:
+            0 17px;
+    }
+
+
+    .subscription-detail-inner {
+
+        padding:
+            35px 19px;
+    }
+
+}

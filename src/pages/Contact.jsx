@@ -85,8 +85,7 @@ function Contact() {
         </section>
 
       </main>
-
-      <Footer />
+<Footer variant="contact" />
     </>
   );
 }

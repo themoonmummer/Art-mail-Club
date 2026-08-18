@@ -4,6 +4,8 @@ import About from "../pages/About";
 import Community from "../Pages/Community";
 import Contact from "../Pages/Contact";
 import Home from "../pages/Home";
+import Subscription from "../pages/Subscription";
+
 
 function AppRouter() {
   return (
@@ -15,6 +17,11 @@ function AppRouter() {
         <Route path="/about" element={<About/>} />
         <Route path="/community" element={<Community />} />
         <Route path="/contact" element={<Contact />} />
+        <Route
+  path="/subscription"
+  element={<Subscription />}
+/>
+
 
       </Routes>
     </BrowserRouter>

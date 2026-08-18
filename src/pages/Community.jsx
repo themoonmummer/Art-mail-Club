@@ -287,8 +287,7 @@ function Community() {
         />
 
       </main>
-
-      <Footer />
+<Footer variant="community" />
     </>
   );
 }

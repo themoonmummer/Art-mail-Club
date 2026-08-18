@@ -80,8 +80,7 @@ It's about making something with your hands, sending it somewhere meaningful, an
 </button>
 
       </main>
-
-      <Footer />
+<Footer variant="about" />
     </>
   );
 }

@@ -2,7 +2,6 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 
@@ -13,153 +12,79 @@ function DiscoverClubs({
   joinedClubIds,
   onJoin,
 }) {
+  /*
+   * =====================================================
+   * AVAILABLE CLUBS
+   * =====================================================
+   */
+
   const availableClubs = useMemo(() => {
     return clubs.filter(
       (club) => !joinedClubIds.includes(club.id)
     );
   }, [clubs, joinedClubIds]);
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(null);
-  const [isMoving, setIsMoving] = useState(false);
 
-  const animationTimer = useRef(null);
-  const finishTimer = useRef(null);
-  const autoTimer = useRef(null);
-  const movingRef = useRef(false);
+  /*
+   * =====================================================
+   * ACTIVE CARD
+   * =====================================================
+   */
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
 
   const count = availableClubs.length;
 
-  const getClub = useCallback(
-    (offset) => {
-      if (!count) {
-        return null;
-      }
-
-      const index =
-        (activeIndex + offset + count) % count;
-
-      return availableClubs[index];
-    },
-    [activeIndex, availableClubs, count]
-  );
 
   /*
    * =====================================================
-   * FIVE CARD LOOP
+   * NEXT
    * =====================================================
    */
 
-  const farPreviousClub = getClub(-2);
-  const previousClub = getClub(-1);
-  const currentClub = getClub(0);
-  const nextClub = getClub(1);
-  const farNextClub = getClub(2);
+  const nextCard = useCallback(() => {
+    if (count < 2) {
+      return;
+    }
+
+    setActiveIndex(
+      (current) => (current + 1) % count
+    );
+  }, [count]);
+
 
   /*
    * =====================================================
-   * MOVE CAROUSEL
+   * PREVIOUS
    * =====================================================
-   *
-   * The important part here is:
-   *
-   * 1. Add moving class.
-   * 2. Let CSS animate for 650ms.
-   * 3. Change activeIndex.
-   * 4. Wait for React to render the new cards.
-   * 5. Remove moving class.
-   *
-   * This prevents the cards from jumping back
-   * to their original positions.
    */
 
-  const moveCarousel = useCallback(
-    (moveDirection) => {
-      if (
-        count < 2 ||
-        movingRef.current
-      ) {
-        return;
-      }
+  const previousCard = useCallback(() => {
+    if (count < 2) {
+      return;
+    }
 
-      movingRef.current = true;
+    setActiveIndex(
+      (current) =>
+        (current - 1 + count) % count
+    );
+  }, [count]);
 
-      setIsMoving(true);
-      setDirection(moveDirection);
-
-      /*
-       * Clear any old timers first.
-       */
-
-      if (animationTimer.current) {
-        window.clearTimeout(
-          animationTimer.current
-        );
-      }
-
-      if (finishTimer.current) {
-        window.clearTimeout(
-          finishTimer.current
-        );
-      }
-
-      /*
-       * =================================================
-       * STEP 1
-       * Let the cards physically slide.
-       * =================================================
-       */
-
-      animationTimer.current =
-        window.setTimeout(() => {
-          /*
-           * =================================================
-           * STEP 2
-           * Change which club is active.
-           *
-           * IMPORTANT:
-           * We keep the direction class active here.
-           * This means there is NO visible reset.
-           * =================================================
-           */
-
-          setActiveIndex((current) => {
-            if (moveDirection === "next") {
-              return (
-                (current + 1) %
-                count
-              );
-            }
-
-            return (
-              (current - 1 + count) %
-              count
-            );
-          });
-
-          /*
-           * =================================================
-           * STEP 3
-           * Give React one frame to render the new
-           * activeIndex before removing the moving class.
-           * =================================================
-           */
-
-          finishTimer.current =
-            window.setTimeout(() => {
-              setDirection(null);
-              setIsMoving(false);
-              movingRef.current = false;
-            }, 80);
-        }, 650);
-    },
-    [count]
-  );
 
   /*
    * =====================================================
-   * AUTOMATIC SLIDESHOW
+   * AUTOMATIC CAROUSEL
    * =====================================================
+   *
+   * This works like the Subscription carousel.
+   *
+   * There is NO special "moving" state.
+   *
+   * React changes activeIndex.
+   *
+   * The CSS transition on the cards then makes
+   * every card smoothly travel to its new position.
    */
 
   useEffect(() => {
@@ -167,41 +92,67 @@ function DiscoverClubs({
       return undefined;
     }
 
-    autoTimer.current =
-      window.setInterval(() => {
-        if (!movingRef.current) {
-          moveCarousel("next");
-        }
-      }, 4500);
+    const timer = window.setInterval(() => {
+      setActiveIndex(
+        (current) => (current + 1) % count
+      );
+    }, 4500);
 
     return () => {
-      if (autoTimer.current) {
-        window.clearInterval(
-          autoTimer.current
-        );
-
-        autoTimer.current = null;
-      }
-
-      if (animationTimer.current) {
-        window.clearTimeout(
-          animationTimer.current
-        );
-
-        animationTimer.current = null;
-      }
-
-      if (finishTimer.current) {
-        window.clearTimeout(
-          finishTimer.current
-        );
-
-        finishTimer.current = null;
-      }
-
-      movingRef.current = false;
+      window.clearInterval(timer);
     };
-  }, [count, moveCarousel]);
+  }, [count]);
+
+
+  /*
+   * =====================================================
+   * GET RELATIVE POSITION
+   * =====================================================
+   *
+   * EXACT SAME IDEA AS SUBSCRIPTION.
+   *
+   * Example:
+   *
+   * activeIndex = 2
+   *
+   * card positions:
+   *
+   * -2 = far previous
+   * -1 = previous
+   *  0 = active
+   * +1 = next
+   * +2 = far next
+   *
+   * The modulo calculation makes the carousel
+   * loop forever.
+   */
+
+  const getCardPosition = useCallback(
+    (index) => {
+      if (!count) {
+        return 0;
+      }
+
+      let difference =
+        index - activeIndex;
+
+      /*
+       * Wrap around from the beginning/end.
+       */
+
+      if (difference > count / 2) {
+        difference -= count;
+      }
+
+      if (difference < -count / 2) {
+        difference += count;
+      }
+
+      return difference;
+    },
+    [activeIndex, count]
+  );
+
 
   /*
    * =====================================================
@@ -215,7 +166,9 @@ function DiscoverClubs({
         id="discover-clubs"
         className="discover-clubs"
       >
+
         <div className="discover-clubs-header">
+
           <p className="community-tag">
             Find Your People
           </p>
@@ -231,9 +184,12 @@ function DiscoverClubs({
             Wander around until you find one
             that feels familiar.
           </p>
+
         </div>
 
+
         <div className="all-clubs-joined">
+
           <span>✉</span>
 
           <h3>
@@ -244,10 +200,13 @@ function DiscoverClubs({
             You're already part of every
             available club.
           </p>
+
         </div>
+
       </section>
     );
   }
+
 
   /*
    * =====================================================
@@ -260,7 +219,13 @@ function DiscoverClubs({
       id="discover-clubs"
       className="discover-clubs"
     >
+
+      {/* =================================================
+          HEADER
+          ================================================= */}
+
       <div className="discover-clubs-header">
+
         <p className="community-tag">
           Find Your People
         </p>
@@ -276,9 +241,16 @@ function DiscoverClubs({
           Wander around until you find one
           that feels familiar.
         </p>
+
       </div>
 
+
+      {/* =================================================
+          CAROUSEL
+          ================================================= */}
+
       <div className="club-carousel">
+
 
         {/* =================================================
             LEFT ARROW
@@ -286,11 +258,11 @@ function DiscoverClubs({
 
         <button
           type="button"
-          className="carousel-arrow carousel-arrow-left"
-          onClick={() =>
-            moveCarousel("previous")
-          }
-          disabled={isMoving}
+          className="
+            carousel-arrow
+            carousel-arrow-left
+          "
+          onClick={previousCard}
           aria-label="Previous club"
         >
           ←
@@ -301,82 +273,104 @@ function DiscoverClubs({
             CAROUSEL STAGE
             ================================================= */}
 
-        <div
-          className={[
-            "carousel-stage",
-            direction
-              ? `moving-${direction}`
-              : "",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
+        <div className="carousel-stage">
 
-          {/* =================================================
-              FAR LEFT
-              ================================================= */}
+          {availableClubs.map(
+            (club, index) => {
 
-          <div className="carousel-card carousel-card-far-previous">
-            {farPreviousClub && (
-              <ClubCard
-                club={farPreviousClub}
-              />
-            )}
-          </div>
+              const position =
+                getCardPosition(index);
 
 
-          {/* =================================================
-              LEFT / FADED
-              ================================================= */}
+              /*
+               * =============================================
+               * POSITION CLASS
+               * =============================================
+               *
+               * This is the important change.
+               *
+               * We are NOT using:
+               *
+               * moving-next
+               * moving-previous
+               *
+               * anymore.
+               *
+               * Instead the card simply changes from:
+               *
+               * previous → current
+               *
+               * or:
+               *
+               * current → next
+               *
+               * and your existing CSS transition handles
+               * the physical movement.
+               */
 
-          <div className="carousel-card carousel-card-previous">
-            {previousClub && (
-              <ClubCard
-                club={previousClub}
-              />
-            )}
-          </div>
-
-
-          {/* =================================================
-              CENTER / HIGHLIGHTED
-              ================================================= */}
-
-          <div className="carousel-card carousel-card-current">
-            {currentClub && (
-              <ClubCard
-                club={currentClub}
-                featured
-                onJoin={onJoin}
-              />
-            )}
-          </div>
-
-
-          {/* =================================================
-              RIGHT / FADED
-              ================================================= */}
-
-          <div className="carousel-card carousel-card-next">
-            {nextClub && (
-              <ClubCard
-                club={nextClub}
-              />
-            )}
-          </div>
+              let positionClass =
+                "carousel-card-far-next";
 
 
-          {/* =================================================
-              FAR RIGHT
-              ================================================= */}
+              if (position === -2) {
+                positionClass =
+                  "carousel-card-far-previous";
+              }
 
-          <div className="carousel-card carousel-card-far-next">
-            {farNextClub && (
-              <ClubCard
-                club={farNextClub}
-              />
-            )}
-          </div>
+              else if (position === -1) {
+                positionClass =
+                  "carousel-card-previous";
+              }
+
+              else if (position === 0) {
+                positionClass =
+                  "carousel-card-current";
+              }
+
+              else if (position === 1) {
+                positionClass =
+                  "carousel-card-next";
+              }
+
+              else if (position === 2) {
+                positionClass =
+                  "carousel-card-far-next";
+              }
+
+
+              /*
+               * =============================================
+               * ACTIVE CARD
+               * =============================================
+               */
+
+              const isActive =
+                position === 0;
+
+
+              return (
+                <div
+                  key={club.id}
+                  className={`
+                    carousel-card
+                    ${positionClass}
+                  `}
+                >
+
+                  <ClubCard
+                    club={club}
+                    featured={isActive}
+                    onJoin={
+                      isActive
+                        ? onJoin
+                        : undefined
+                    }
+                  />
+
+                </div>
+              );
+            }
+          )}
 
         </div>
 
@@ -387,17 +381,18 @@ function DiscoverClubs({
 
         <button
           type="button"
-          className="carousel-arrow carousel-arrow-right"
-          onClick={() =>
-            moveCarousel("next")
-          }
-          disabled={isMoving}
+          className="
+            carousel-arrow
+            carousel-arrow-right
+          "
+          onClick={nextCard}
           aria-label="Next club"
         >
           →
         </button>
 
       </div>
+
     </section>
   );
 }

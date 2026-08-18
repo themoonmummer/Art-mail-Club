@@ -1,44 +1,281 @@
-.footer{
+/* ==================================================
+   FOOTER
+   ================================================== */
 
-    padding:70px 40px;
+.footer {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 75px 40px 35px;
+
+    transition:
+        background 0.35s ease,
+        color 0.35s ease;
+
+    overflow: hidden;
+}
+
+
+/* ==================================================
+   CONTENT
+   ================================================== */
+
+.footer-content {
+    width: min(1200px, 100%);
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+
+/* ==================================================
+   BRAND
+   ================================================== */
+
+.footer-brand h2 {
+    margin: 0 0 15px;
+
+    font-family: var(--font-heading);
+
+    font-size: 30px;
+
+    letter-spacing: 2px;
+}
+
+
+.footer-brand p {
+    width: min(550px, 90%);
+
+    margin: 0 auto;
+
+    line-height: 1.8;
+
+    font-size: 15px;
+}
+
+
+/* ==================================================
+   LINKS
+   ================================================== */
+
+.footer-links {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 30px;
+
+    margin: 38px 0 35px;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+
+.footer-links a {
+    color: inherit;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.footer-links a:hover {
+    transform: translateY(-1px);
+}
+
+
+/* ==================================================
+   DIVIDER
+   ================================================== */
+
+.footer-divider {
+    width: min(700px, 80%);
+
+    height: 1px;
+
+    margin: 0 auto 25px;
+
+    background: currentColor;
+
+    opacity: 0.18;
+}
+
+
+/* ==================================================
+   COPYRIGHT
+   ================================================== */
+
+.footer-copy {
+    margin: 0;
+
+    font-size: 13px;
+
+    opacity: 0.65;
+}
+
+
+/* ==================================================
+   HOME
+   Warm paper / cream
+   ================================================== */
+
+.footer-home,
+.footer-default {
+    background: #f4e8d8;
+
+    color: #684b38;
+}
+
+
+.footer-home .footer-links a:hover,
+.footer-default .footer-links a:hover {
+    color: #8a6044;
+}
+
+
+/* ==================================================
+   GALLERY
+   Dark artistic footer
+   ================================================== */
+
+.footer-gallery {
     background:#846044;
-    color:white;
+
+    color: #f2dfc0;
 }
 
-.footer-content{
-    max-width:1200px;
-    margin:auto;
-    text-align:center;
+
+.footer-gallery .footer-links a:hover {
+    color: #ffd98b;
 }
 
-.footer h2{
-    font-family:var(--font-heading);
-    margin-bottom:18px;
+
+/* ==================================================
+   COMMUNITY
+   Coffee brown
+   ================================================== */
+
+.footer-community {
+    background: #846044;
+
+    color: #f8ead8;
 }
 
-.footer p{
-    opacity:.9;
-    line-height:1.8;
+
+.footer-community .footer-links a:hover {
+    color: #f6dcc2;
 }
 
-.footer-links{
 
-    display:flex;
-    justify-content:center;
-    gap:35px;
-    margin:40px 0;
+/* ==================================================
+   ABOUT
+   Deep wine
+   ================================================== */
+
+.footer-about {
+    background: #41010A;
+
+    color: #f4dfbd;
 }
 
-.footer-links a{
-    transition:.3s;
+
+.footer-about .footer-links a:hover {
+    color: #f8d9ad;
 }
 
-.footer-links a:hover{
-    color:#f6dcc2;
+
+/* ==================================================
+   CONTACT
+   Same wine as contact background
+   ================================================== */
+
+.footer-contact {
+    background: #41010A;
+
+    color: #f4dfbd;
 }
 
-.footer-copy{
 
-    font-size:14px;
-    opacity:.75;
+.footer-contact .footer-links a:hover {
+    color: #f8d9ad;
+}
+
+
+/* ==================================================
+   SUBSCRIPTION
+   For now — mysterious wine aesthetic
+   ================================================== */
+
+.footer-subscription {
+    background: #41010A;
+
+    color: #f4dfbd;
+}
+
+
+.footer-subscription .footer-links a:hover {
+    color: #f8d9ad;
+}
+
+
+/* ==================================================
+   MOBILE
+   ================================================== */
+
+@media (max-width: 600px) {
+
+    .footer {
+        padding: 55px 22px 28px;
+    }
+
+
+    .footer-brand h2 {
+        font-size: 26px;
+    }
+
+
+    .footer-brand p {
+        width: 92%;
+
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+
+    .footer-links {
+        gap: 18px 24px;
+
+        margin: 30px 0;
+    }
+
+
+    .footer-links a {
+        font-size: 13px;
+    }
+
+
+    .footer-divider {
+        width: 90%;
+    }
+
+
+    .footer-copy {
+        font-size: 11px;
+
+        line-height: 1.6;
+    }
 }
