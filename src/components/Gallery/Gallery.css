@@ -1,0 +1,62 @@
+.gallery-page {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #201612;
+}
+
+.gallery-page::after {
+  content: "";
+  display: block;
+  height: 1px;
+}
+
+.gallery-track {
+  display: flex;
+  height: 100vh;
+}
+
+.gallery-section {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  position: relative;
+
+  /*
+    Allow artwork to visually extend
+    beyond the room boundary.
+  */
+  overflow: visible;
+
+  z-index: 1;
+}
+
+
+/*
+  The individual room components
+  provide their own wall/background.
+
+  Keeping these transparent prevents
+  the gallery sections from creating
+  separate colored boxes between rooms.
+*/
+
+.entrance,
+.letters,
+.third-room,
+.fourth-room-section {
+  background: transparent;
+}
+
+
+body {
+  overflow-x: hidden;
+}
+
+
+.gallery-pin {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}

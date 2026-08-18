@@ -1,0 +1,95 @@
+/* ==========================================
+   Art Mail Club Design System
+========================================== */
+
+:root {
+
+  /* ========= Colors ========= */
+
+  --color-background: #FFFBF7;
+  --color-paper: #EEE4DA;
+  --color-surface: #FFFFFF;
+
+  --color-wood: #846044;
+  --color-wood-hover: #A76D5E;
+
+  --color-green: #98A086;
+
+  --color-text: #2F2A28;
+  --color-text-light: #756A63;
+
+  --color-border: #D8C4AC;
+
+  /* ========= Fonts ========= */
+
+  --font-heading: "Cinzel", serif;
+  --font-body: "Times New Roman", serif;
+
+  /* ========= Font Sizes ========= */
+
+  --fs-small: 14px;
+  --fs-body: 16px;
+  --fs-subheading: 24px;
+  --fs-heading: 48px;
+
+  /* ========= Border Radius ========= */
+
+  --radius-small: 8px;
+  --radius-medium: 14px;
+  --radius-large: 22px;
+  --radius-pill: 999px;
+
+  /* ========= Shadows ========= */
+
+  --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
+  --shadow-medium: 0 18px 40px rgba(0,0,0,0.12);
+
+  /* ========= Animation ========= */
+
+  --transition-fast: 0.25s ease;
+  --transition-normal: 0.4s ease;
+  --transition-slow: 0.8s ease;
+
+}
+/* ========= Global Reset ========= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+
+  background:var(--color-background);
+  color:var(--color-text);
+  font-family:var(--font-body);
+  overflow-x:hidden;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul{
+  list-style:none;
+}
+
+img{
+
+  display:block;
+  max-width:100%;
+}
+
+button{
+
+  border:none;
+  background: none;
+  font-family:inherit;
+  cursor: pointer;
+}

@@ -1,0 +1,267 @@
+.museum-room-wall {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      rgba(30, 15, 8, 0.52),
+      rgba(30, 15, 8, 0.62)
+    ),
+    url("../../assets/textures/wall.jpeg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+
+.entrance-room {
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  overflow:visible;
+
+  background:
+  linear-gradient(
+    90deg,
+    #24140c,
+    #4a2b17,
+    #24140c
+  );
+
+}
+
+.entrance-room::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(255, 220, 150, 0.08),
+      transparent 60%
+    );
+
+  pointer-events: none;
+}
+
+
+/* wall */
+.salon-wall {
+  position: absolute;
+  inset: 0;
+  padding: 80px;
+
+  /* Layout only */
+  background: transparent;
+}
+
+/* wrapper */
+ 
+.frame-box {
+
+  position:absolute;
+
+}
+
+
+.e1 {
+    left: 1%;
+    top: 15%;
+    width: 240px;
+    height: 260px;
+}
+
+.e2 {
+    left: 16%;
+    top: 10%;
+    width: 240px;
+    height: 320px;
+}
+
+.e3 {
+    left: 31.5%;
+    top: 10%;
+    width: 170px;
+    height: 220px;
+}
+
+.e4 {
+    left: 42.5%;
+    top: 16%;
+    width: 260px;
+    height: 180px;
+}
+
+.e5 {
+    left: 1%;
+    bottom: 16%;
+    width: 240px;
+    height: 250px;
+}
+
+.e6 {
+    right: 34%;
+    bottom: 4%;
+    width: 310px;
+    height: 150px;
+}
+
+.e7 {
+    left: 60%;
+    top: 6%;
+    width: 150px;
+    height: 200px;
+}
+
+.e8 {
+    left: 31%;
+    top: 42%;
+    width: 280px;
+    height: 190px;
+}
+
+.e10 {
+    right: 11.5%;
+    top: 9%;
+    width: 320px;
+    height: 167px;
+}
+
+.e11 {
+    left: 32.5%;
+    bottom: 4%;
+    width: 250px;
+    height: 200px;
+}
+
+.e12 {
+    right: 27%;
+    top: 34%;
+    width: 220px;
+    height: 300px;
+}
+
+.e13 {
+    left: 17%;
+    top: 54.5%;
+    width: 227px;
+    height: 190px;
+}
+
+.e14 {
+    left: 48.5%;
+    top: 42%;
+    width: 180px;
+    height: 240px;
+}
+
+.e15 {
+    right: 16%;
+    top: 34%;
+    width: 170px;
+    height: 185px;
+}
+
+.e16 {
+    right: 22%;
+    bottom: 4.5%;
+    width: 190px;
+    height: 150px;
+}
+
+.e17 {
+    right: 1%;
+    top: 35%;
+    width: 245px;
+    height: 290px;
+}
+
+.e18 {
+    right: 16%;
+    bottom: 26%;
+    width: 169px;
+    height: 110px;
+}
+
+.e19 {
+    right: 9%;
+    bottom: 4.5%;
+    width: 210px;
+    height: 150px;
+}
+
+
+
+/* force frames to stay inside */
+
+.frame-box .museum-frame {
+
+  width:100%;
+
+  height:100%;
+
+}
+
+
+
+.gallery-title {
+
+  position:absolute;
+  left:3%;
+
+  bottom:5%;
+
+  transform:none;
+  z-index:20;
+
+  text-align:center;
+  text-shadow:
+  0 0 8px rgba(255,215,120,.35);
+  color:#d6a84a;
+
+
+}
+.gallery-title h1 {
+
+  font-family: "Cinzel", Georgia, serif;
+
+  font-size:48px;
+
+  font-weight:600;
+
+  letter-spacing:2px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ecc85b,
+      #b87922
+    );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+
+}
+
+
+.gallery-title span {
+
+  font-style:italic;
+
+  opacity:.8;
+
+}
+/* Keep Entrance lighting subtle so the wall matches the other rooms */
+
+.entrance-room .museum-light {
+  opacity: 0.25;
+}
+
+.entrance-room::before {
+  background: none;
+}
+

@@ -1,0 +1,176 @@
+.third-room {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.third-room-wall {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      rgba(40, 20, 10, 0.45),
+      rgba(40, 20, 10, 0.55)
+    ),
+    url("../../assets/textures/wall.jpeg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.third-room-art {
+  position: absolute;
+  inset: 0;
+}
+
+.t1 {
+    left: 4%;
+    top: 18%;
+    width: 180px;
+    height: 240px;
+}
+
+.t2 {
+    left: 16%;
+    top: 10%;
+    width: 240px;
+    height: 320px;
+}
+
+.t3 {
+    left: 31.5%;
+    top: 10%;
+    width: 170px;
+    height: 220px;
+}
+
+.t4 {
+    left: 42.5%;
+    top: 16%;
+    width: 260px;
+    height: 180px;
+}
+
+.t5 {
+    left: -0.5%;
+    bottom: 5%;
+    width: 270px;
+    height: 321px;
+}
+
+.t6 {
+    right: 34%;
+    bottom: 4%;
+    width: 310px;
+    height: 150px;
+}
+
+.t7 {
+    left: 60%;
+    top: 6%;
+    width: 150px;
+    height: 200px;
+}
+
+.t8 {
+    left: 31%;
+    top: 42%;
+    width: 280px;
+    height: 190px;
+}
+
+.t9 {
+    left: 16%;
+    bottom: 4%;
+    width: 220px;
+    height: 160px;
+}
+
+.t10 {
+    right: 11.5%;
+    top: 9%;
+    width: 320px;
+    height: 167px;
+}
+
+.t11 {
+    left: 30%;
+    bottom: 4%;
+    width: 293px;
+    height: 200px;
+}
+
+.t12 {
+    right: 27%;
+    top: 34%;
+    width: 220px;
+    height: 300px;
+}
+
+.t13 {
+    left: 16%;
+    top: 54.5%;
+    width: 227px;
+    height: 140px;
+}
+
+.t14 {
+    left: 48.5%;
+    top: 42%;
+    width: 180px;
+    height: 240px;
+}
+
+.t15 {
+    right: 16%;
+    top: 34%;
+    width: 170px;
+    height: 185px;
+}
+
+.t16 {
+    right: 22%;
+    bottom: 4.5%;
+    width: 190px;
+    height: 150px;
+}
+
+.t17 {
+    right: -0.5%;
+    top: 35%;
+    width: 260px;
+    height: 290px;
+}
+
+.t18 {
+    right: 16%;
+    bottom: 26%;
+    width: 169px;
+    height: 110px;
+}
+
+.t19 {
+    right: 1%;
+    bottom: 4.5%;
+    width: 350px;
+    height: 150px;
+}
+
+.third-bridge-left {
+  position: absolute;
+
+  left: -182px;
+  top: 9%;
+
+  width: 240px;
+  height: 180px;
+
+  z-index: 20;
+}
+
+.frame .museum-frame {
+  width: 100%;
+  height: 100%;
+}

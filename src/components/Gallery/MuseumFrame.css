@@ -1,0 +1,130 @@
+.museum-frame {
+
+  width:100%;
+
+  height:100%;
+
+
+  padding:14px;
+
+  box-sizing:border-box;
+
+
+  background:
+
+    linear-gradient(
+      135deg,
+      #5a320d,
+      #d0a04a,
+      #f0d27a,
+      #704014
+    );
+box-shadow:
+
+  0 18px 35px rgba(0,0,0,.95),
+
+  0 6px 12px rgba(0,0,0,.57),
+
+  inset 0 0 14px rgba(255,220,140,.25);
+
+transition:
+    transform .4s ease,
+    box-shadow .4s ease;
+
+
+}
+
+.museum-frame::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+
+  border: 2px solid rgba(255, 222, 120, 0.45);
+
+  box-shadow:
+    inset 0 0 12px rgba(70, 35, 10, 0.8);
+
+  pointer-events: none;
+}
+
+
+.frame-carving {
+
+  width:100%;
+
+  height:100%;
+
+  padding:10px;
+
+
+  background:#b47b27;
+
+}
+
+
+
+.frame-inner {
+
+  width:100%;
+
+  height:100%;
+
+  padding:12px;
+
+  background:#100804;
+
+}
+
+
+
+.artwork-space {
+
+  width:100%;
+
+  height:100%;
+
+  overflow:hidden;
+
+}
+
+
+
+.artwork-image {
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+
+}
+
+.frame-image {
+  position: relative;
+
+  box-shadow:
+    inset 0 0 25px rgba(0, 0, 0, 0.55),
+    0 0 12px rgba(255, 210, 120, 0.15);
+
+  transform: scale(0.985);
+}
+.frame-image::after {
+  content: "";
+  position: absolute;
+
+  inset: 0;
+
+  border: 8px solid rgba(50, 25, 8, 0.35);
+
+  box-shadow:
+    inset 0 0 18px rgba(0, 0, 0, 0.65);
+
+  pointer-events: none;
+}
+
+
+.museum-label {
+
+  display:none;
+
+}

@@ -1,0 +1,358 @@
+/* ==================================================
+   ABOUT
+   ================================================== */
+
+.about {
+    position: relative;
+
+    width: 100%;
+
+    /*
+     * IMPORTANT:
+     * Do NOT give this section a fixed viewport height.
+     *
+     * The image will determine the height of the
+     * entire About section.
+     */
+    display: grid;
+
+    overflow: hidden;
+
+    background: #3b1118;
+}
+
+
+/* ==================================================
+   BACKGROUND IMAGE
+   ================================================== */
+.about-background {
+    grid-area: 1 / 1;
+
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: initial;
+    object-position: center;
+
+    z-index: 0;
+
+    /*
+     * Slight visual enhancement.
+     */
+    filter:
+        contrast(1.04)
+        saturate(1.08)
+        brightness(1.02);
+}
+
+
+
+/* ==================================================
+   OVERLAY
+   ================================================== */
+
+.about-overlay {
+    grid-area: 1 / 1;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+
+    background: rgba(45, 8, 15, 0.16);
+
+    pointer-events: none;
+}
+
+
+/* ==================================================
+   CONTENT
+   ================================================== */
+
+.about-content {
+    grid-area: 1 / 1;
+
+    z-index: 2;
+
+    width: min(760px, 90%);
+
+    /*
+     * Because the image creates the section height,
+     * this content will be centered across the entire
+     * artwork.
+     */
+    min-height: 100%;
+
+    margin: 0 auto;
+
+    padding: 100px 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    align-self: stretch;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    color: #f2dfc0;
+
+    text-shadow:
+        0 2px 8px rgba(35, 5, 10, 0.65),
+        0 1px 3px rgba(35, 5, 10, 0.8);
+}
+
+
+/* ==================================================
+   TAG
+   ================================================== */
+
+.about-tag {
+    margin: 0 0 20px;
+
+    color: #f1d7ae;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+
+/* ==================================================
+   HEADING
+   ================================================== */
+
+.about h1 {
+    margin: 0 0 32px;
+
+    color: #f4dfbd;
+
+    font-family: var(--font-heading);
+
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+
+    line-height: 1.08;
+
+    font-weight: 600;
+}
+
+
+/* ==================================================
+   PARAGRAPHS
+   ================================================== */
+
+.about-content p:not(.about-tag) {
+    max-width: 680px;
+
+    margin: 0 auto 22px;
+
+    color: #f0dfc5;
+
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+
+    line-height: 1.85;
+
+    font-weight: 400;
+}
+
+
+/* ==================================================
+   TABLET
+   ================================================== */
+
+@media (max-width: 900px) {
+
+    .about-content {
+        width: min(700px, 90%);
+
+        padding: 80px 30px;
+    }
+
+    .about h1 {
+        font-size: clamp(2.3rem, 7vw, 3.7rem);
+    }
+}
+
+
+/* ==================================================
+   MOBILE
+   ================================================== */
+
+@media (max-width: 600px) {
+
+    .about-content {
+        width: 92%;
+
+        padding: 60px 16px;
+    }
+
+    .about-tag {
+        margin-bottom: 15px;
+
+        font-size: 11px;
+        letter-spacing: 2.5px;
+    }
+
+    .about h1 {
+        margin-bottom: 24px;
+
+        font-size: clamp(2.1rem, 10vw, 3.2rem);
+
+        line-height: 1.08;
+    }
+
+    .about-content p:not(.about-tag) {
+        margin-bottom: 18px;
+
+        font-size: 0.97rem;
+
+        line-height: 1.75;
+    }
+}
+
+
+/* ==================================================
+   SMALL MOBILE
+   ================================================== */
+
+@media (max-width: 380px) {
+
+    .about-content {
+        padding: 45px 12px;
+    }
+
+    .about h1 {
+        font-size: 2rem;
+    }
+
+    .about-content p:not(.about-tag) {
+        font-size: 0.9rem;
+    }
+}
+
+/* ==================================================
+   SCROLL INDICATOR
+   ================================================== */
+
+.scroll-indicator {
+    position: fixed;
+
+    left: 50%;
+    bottom: 28px;
+
+    transform: translateX(-50%);
+
+    width: 56px;
+    height: 56px;
+
+    border: 1px solid rgba(244, 223, 189, 0.85);
+
+    border-radius: 50%;
+
+    background: rgba(45, 8, 15, 0.18);
+
+    color: #f4dfbd;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    z-index: 100;
+
+    opacity: 1;
+
+    transition:
+        opacity 0.45s ease,
+        transform 0.3s ease,
+        background 0.3s ease;
+
+    backdrop-filter: blur(2px);
+
+    -webkit-backdrop-filter: blur(2px);
+}
+
+
+/* Arrow */
+
+.scroll-indicator span {
+    display: block;
+
+    color: #f4dfbd;
+
+    font-size: 24px;
+    font-weight: 400;
+
+    line-height: 1;
+
+    animation: scrollArrow 1.8s ease-in-out infinite;
+}
+
+
+/* Hover */
+
+.scroll-indicator:hover {
+    transform: translateX(-50%) translateY(-4px);
+
+    background: rgba(45, 8, 15, 0.35);
+}
+
+
+/* ==================================================
+   HIDE AFTER SCROLL
+   ================================================== */
+
+.scroll-indicator.hidden {
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform: translateX(-50%) translateY(10px);
+}
+
+
+/* ==================================================
+   ARROW ANIMATION
+   ================================================== */
+
+@keyframes scrollArrow {
+
+    0%,
+    100% {
+        transform: translateY(-3px);
+    }
+
+    50% {
+        transform: translateY(4px);
+    }
+}
+
+
+/* ==================================================
+   MOBILE
+   ================================================== */
+
+@media (max-width: 600px) {
+
+    .scroll-indicator {
+        width: 48px;
+        height: 48px;
+
+        bottom: 22px;
+    }
+
+    .scroll-indicator span {
+        font-size: 21px;
+    }
+}

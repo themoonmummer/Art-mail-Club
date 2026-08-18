@@ -1,0 +1,75 @@
+/* ==========================================
+   Button Component
+   ========================================== */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 14px 28px;
+
+  border-radius: var(--radius-pill);
+
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* ==========================================
+   Primary Button
+   ========================================== */
+
+.button.primary {
+  background: var(--color-wood);
+  color: var(--color-paper);
+
+  box-shadow: var(--shadow-soft);
+}
+
+.button.primary:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   Secondary Button
+   ========================================== */
+
+.button.secondary {
+  background: var(--color-paper);
+
+  color: var(--color-text);
+
+  border: 2px solid var(--color-green);
+}
+
+.button.secondary:hover {
+  background: var(--color-background);
+
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-soft);
+}
+
+/* ==========================================
+   Sizes
+   ========================================== */
+
+.button.small {
+  padding: 10px 20px;
+  font-size: var(--fs-small);
+}
+
+.button.large {
+  padding: 14px 32px;
+  font-size: var(--fs-body);
+}
