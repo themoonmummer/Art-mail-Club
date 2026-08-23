@@ -1,674 +1,410 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import "../components/Subscription/Subscription.css";
+import "../components/Subscription/subscription.css";
 
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 
+import MailClub from "../components/Subscription/MailClub";
+import SecretMail from "../components/Subscription/SecretMail";
+import TimeCapsule from "../components/Subscription/TimeCapsule";
+import MysteryMail from "../components/Subscription/MysteryMail";
 
-/* ==================================================
-   CONTENT
-   ==================================================
-   CHANGE CARD CONTENT HERE
-================================================== */
-
-const experiences = [
-
-  /* ==================================================
-     CARD 01 — MAIL CLUB
-  ================================================== */
-
+const THEMES = [
   {
-    id: "club",
-
-    icon: "✉",
-
+    id: "autumn",
     title: "Mail Club",
-
-    shortTitle: "Mail Club",
-
-    eyebrow: "THE MONTHLY CLUB",
-
-    heading:
-      "Something special arrives every month.",
-
-    description:
-      "Become part of a slow, thoughtful exchange where every month brings a new little collection of creativity, stories, and surprises to your mailbox.",
-
-    items: [
-      "Letter from another member",
-      "Handmade postcard",
-      "Mini zine",
-      "Art print",
-      "Sticker pack",
-      "Prompt cards",
-      "Tiny poem",
-      "Collectible stamp",
-    ],
-
-    themeTitle:
-      "Each month has a theme.",
-
-    themes: [
-      "Rain",
-      "Nostalgia",
-      "Space",
-      "Dreams",
-      "Tea",
-      "Forest",
-      "Childhood",
-    ],
-
-    note:
-      "Collect them, keep them, trade them, or let them become part of your own creative archive.",
+    eyebrow: "Monthly correspondence",
+    lede:
+      "A small handmade parcel arrives every month, filled with paper things built around a new theme.",
   },
 
-
-  /* ==================================================
-     CARD 02 — SECRET MAIL
-  ================================================== */
-
   {
-    id: "secret",
-
-    icon: "✉",
-
+    id: "rain",
     title: "Secret Mail",
-
-    shortTitle: "Secret Mail",
-
-    eyebrow: "A LITTLE MYSTERY",
-
-    heading:
-      "Someone out there is waiting to write to you.",
-
-    description:
-      "A random member is paired with another random member for a secret exchange. You won't know who your letter is coming from until it arrives.",
-
-    items: [
-      "Random member matching",
-      "Anonymous exchange",
-      "Handwritten letters",
-      "A little mystery",
-      "New creative connections",
-    ],
-
-    themeTitle:
-      "You never know who you'll get.",
-
-    themes: [
-      "A stranger",
-      "A dreamer",
-      "An artist",
-      "A writer",
-      "A fellow collector",
-    ],
-
-    note:
-      "Sometimes the most meaningful connections begin with a name you've never heard before.",
+    eyebrow: "Write anonymously",
+    lede:
+      "A random member writes to another random member, with names kept secret until you choose otherwise.",
   },
 
-
-  /* ==================================================
-     CARD 03 — TIME CAPSULE
-  ================================================== */
-
   {
-    id: "capsule",
-
-    icon: "💌",
-
+    id: "greenery",
     title: "Time Capsule Letters",
-
-    shortTitle: "Time Capsule",
-
-    eyebrow: "WRITE TO THE FUTURE",
-
-    heading:
-      "Write something today. Let your future self find it later.",
-
-    description:
-      "Some letters aren't meant to be opened immediately. Write a message to your future self, someone you love, or a moment that hasn't happened yet.",
-
-    items: [
-      "Write your letter today",
-      "Choose when it arrives",
-      "6 months later",
-      "1 year later",
-      "5 years later",
-    ],
-
-    themeTitle:
-      "Choose your moment.",
-
-    themes: [
-      "6 Months",
-      "1 Year",
-      "5 Years",
-    ],
-
-    note:
-      "Because sometimes the person who needs your words most is the person you haven't become yet.",
+    eyebrow: "Letters to the future",
+    lede:
+      "Write something today and choose the moment in the future when your words should find you again.",
   },
-
-
-  /* ==================================================
-     CARD 04 — MYSTERY MAIL
-  ================================================== */
 
   {
-    id: "mystery",
-
-    icon: "🎁",
-
+    id: "sunny",
     title: "Mystery Mail",
-
-    shortTitle: "Mystery Mail",
-
-    eyebrow: "A SURPRISE IN THE MAIL",
-
-    heading:
-      "Choose a world. Leave the surprise to us.",
-
-    description:
-      "Pick a theme and let the mystery unfold. You know the feeling you'll receive, but never exactly what will be inside your envelope.",
-
-    items: [
-      "Choose a theme",
-      "Cottagecore",
-      "Vintage",
-      "Dark Academia",
-      "Anime",
-      "Nature",
-      "Fantasy",
-    ],
-
-    themeTitle:
-      "Pick your world.",
-
-    themes: [
-      "Cottagecore",
-      "Vintage",
-      "Dark Academia",
-      "Anime",
-      "Nature",
-      "Fantasy",
-    ],
-
-    note:
-      "The sender doesn't know exactly what they'll receive. That's what makes opening it part of the experience.",
+    eyebrow: "Leave it to chance",
+    lede:
+      "Choose a theme and let the rest remain unknown. Your next piece of mail is left to chance.",
   },
-
 ];
 
-
-/* ==================================================
-   COMPONENT
-================================================== */
-
-function Subscription() {
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-
-  /* ==================================================
-     CARD MOVEMENT
-     ==================================================
-     USER CONTROLS THE CAROUSEL.
-     THERE IS NO AUTO-SLIDE.
-  ================================================== */
-
-  const moveNext = () => {
-
-    setActiveIndex(
-      (current) =>
-        (current + 1) % experiences.length
+function getSavedSubscription() {
+  try {
+    const saved = localStorage.getItem(
+      "art-mail-subscription"
     );
 
-  };
+    if (!saved) {
+      return null;
+    }
 
+    const parsed = JSON.parse(saved);
 
-  const movePrevious = () => {
+    if (!parsed || parsed.active !== true) {
+      return null;
+    }
 
-    setActiveIndex(
-      (current) =>
-        (current - 1 + experiences.length) %
-        experiences.length
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function ActiveExperience({
+  activeId,
+  isSubscribed,
+  onSubscribe,
+}) {
+  switch (activeId) {
+    case "autumn":
+      return (
+        <MailClub
+          themeId={activeId}
+          isSubscribed={isSubscribed}
+          onSubscribe={onSubscribe}
+        />
+      );
+
+    case "rain":
+      return (
+        <SecretMail
+          themeId={activeId}
+          isSubscribed={isSubscribed}
+          onSubscribe={onSubscribe}
+        />
+      );
+
+    case "greenery":
+      return (
+        <TimeCapsule
+          themeId={activeId}
+          isSubscribed={isSubscribed}
+          onSubscribe={onSubscribe}
+        />
+      );
+
+    case "sunny":
+      return (
+        <MysteryMail
+          themeId={activeId}
+          isSubscribed={isSubscribed}
+          onSubscribe={onSubscribe}
+        />
+      );
+
+    default:
+      return (
+        <MailClub
+          themeId="autumn"
+          isSubscribed={isSubscribed}
+          onSubscribe={onSubscribe}
+        />
+      );
+  }
+}
+
+export default function SubscriptionPage() {
+  const [activeId, setActiveId] = useState("autumn");
+
+  const [subscription, setSubscription] = useState(
+    getSavedSubscription
+  );
+
+  const isSubscribed =
+    subscription?.active === true;
+
+  /*
+   * Keep subscription state synchronized if another
+   * component updates localStorage.
+   */
+  useEffect(() => {
+    const handleProfileUpdate = () => {
+      setSubscription(getSavedSubscription());
+    };
+
+    window.addEventListener(
+      "art-mail-profile-update",
+      handleProfileUpdate
     );
 
-  };
+    return () => {
+      window.removeEventListener(
+        "art-mail-profile-update",
+        handleProfileUpdate
+      );
+    };
+  }, []);
 
+  /*
+   * Join the currently selected correspondence.
+   */
+  const handleSubscribe = () => {
+    const selectedTheme =
+      THEMES.find(
+        (theme) => theme.id === activeId
+      ) || THEMES[0];
 
-  /* ==================================================
-     CARD SELECTION
-  ================================================== */
+    const newSubscription = {
+      active: true,
+      name: selectedTheme.title,
+      status: "Active subscription",
+      themeId: selectedTheme.id,
+      themeTitle: selectedTheme.title,
+      joinedAt:
+        new Date().toLocaleDateString(),
+    };
 
-  const selectCard = (index) => {
+    try {
+      localStorage.setItem(
+        "art-mail-subscription",
+        JSON.stringify(newSubscription)
+      );
 
-    setActiveIndex(index);
+      /*
+       * Also update the profile if one exists.
+       */
+      const savedProfile =
+        localStorage.getItem(
+          "artMailProfile"
+        );
 
-  };
+      if (savedProfile) {
+        const profile =
+          JSON.parse(savedProfile);
 
+        const currentThemes =
+          Array.isArray(profile.joinedThemes)
+            ? profile.joinedThemes
+            : [];
 
-  /* ==================================================
-     GET CARD POSITION
-     ==================================================
-     This keeps the four cards in an infinite loop.
+        const updatedProfile = {
+          ...profile,
 
-     Example:
+          joinedThemes:
+            currentThemes.includes(
+              selectedTheme.title
+            )
+              ? currentThemes
+              : [
+                  ...currentThemes,
+                  selectedTheme.title,
+                ],
 
-     [4] [1] [2] [3] [4] [1]
+          subscription:
+            newSubscription,
+        };
 
-     When 4 becomes active, 1 can still appear
-     naturally beside it.
-  ================================================== */
+        localStorage.setItem(
+          "artMailProfile",
+          JSON.stringify(updatedProfile)
+        );
+      }
 
-  const getCardPosition = (index) => {
+      setSubscription(newSubscription);
 
-    const total = experiences.length;
-
-    let difference =
-      index - activeIndex;
-
-
-    /*
-     * Wrap around the shortest direction.
-     */
-
-    if (difference > total / 2) {
-
-      difference -= total;
-
+      window.dispatchEvent(
+        new Event("art-mail-profile-update")
+      );
+    } catch {
+      console.error(
+        "Could not save subscription."
+      );
     }
-
-
-    if (difference < -total / 2) {
-
-      difference += total;
-
-    }
-
-
-    return difference;
-
   };
 
+  /*
+   * Useful while developing/testing.
+   *
+   * This is intentionally available from the browser
+   * console:
+   *
+   * localStorage.removeItem("art-mail-subscription")
+   * window.dispatchEvent(new Event("art-mail-profile-update"))
+   */
+  useEffect(() => {
+    const handleStorage = () => {
+      setSubscription(getSavedSubscription());
+    };
 
-  /* ==================================================
-     ACTIVE CONTENT
-  ================================================== */
+    window.addEventListener(
+      "storage",
+      handleStorage
+    );
 
-  const activeExperience =
-    experiences[activeIndex];
+    return () => {
+      window.removeEventListener(
+        "storage",
+        handleStorage
+      );
+    };
+  }, []);
 
+  const activeTheme =
+    THEMES.find(
+      (theme) => theme.id === activeId
+    ) || THEMES[0];
 
   return (
     <>
-
-      {/* ==================================================
-          NAVBAR
-      ================================================== */}
-
       <Navbar variant="subscription" />
 
+      <main
+        className="subscription-page"
+        data-theme={activeId}
+      >
+        {/* =================================================
+            PAGE BACKGROUND
+        ================================================= */}
 
-      <main className="subscription">
+        <div
+          className="subscription-background"
+          aria-hidden="true"
+        >
+          <div className="subscription-background-glow" />
 
+          <div className="subscription-background-grain" />
 
-        {/* ==================================================
-            INTRO CONTENT
-        ================================================== */}
+          <div className="subscription-background-orb orb-one" />
 
-        <section className="subscription-intro">
+          <div className="subscription-background-orb orb-two" />
 
-          <p className="subscription-eyebrow">
-            ART MAIL CLUB
-          </p>
-
-          <h1>
-            Choose your kind
-            <br />
-            of mail.
-          </h1>
-
-          <p className="subscription-intro-text">
-            Not everything has to arrive instantly.
-            Sometimes the best things are the ones
-            you wait for.
-          </p>
-
-        </section>
-
-
-        {/* ==================================================
-            CARD CAROUSEL
-        ================================================== */}
-
-        <section className="mail-carousel">
-
-
-          {/* ==================================================
-              LEFT ARROW
-          ================================================== */}
-
-          <button
-            type="button"
-            className="carousel-arrow carousel-arrow-left"
-            onClick={movePrevious}
-            aria-label="Previous mail experience"
-          >
-            ←
-          </button>
-
-
-          {/* ==================================================
-              CARDS
-          ================================================== */}
-
-          <div className="mail-cards">
-
-            {experiences.map(
-              (experience, index) => {
-
-                const position =
-                  getCardPosition(index);
-
-                const isActive =
-                  position === 0;
-
-
-                /*
-                 * Determine visual position.
-                 */
-
-                let positionClass =
-                  "far";
-
-
-                if (position === 0) {
-
-                  positionClass = "active";
-
-                } else if (position === -1) {
-
-                  positionClass = "previous";
-
-                } else if (position === 1) {
-
-                  positionClass = "next";
-
-                }
-
-
-                return (
-
-                  <button
-                    type="button"
-                    key={experience.id}
-                    className={`mail-card ${positionClass}`}
-                    onClick={() =>
-                      selectCard(index)
-                    }
-                    aria-label={`Choose ${experience.title}`}
-                  >
-
-
-                    {/* ==================================================
-                        CARD ICON
-                    ================================================== */}
-
-                    <span className="mail-card-icon">
-                      {experience.icon}
-                    </span>
-
-
-                    {/* ==================================================
-                        CARD NUMBER
-                    ================================================== */}
-
-                    <span className="mail-card-number">
-                      0{index + 1}
-                    </span>
-
-
-                    {/* ==================================================
-                        CARD TITLE
-                    ================================================== */}
-
-                    <span className="mail-card-title">
-                      {experience.title}
-                    </span>
-
-
-                    {/* ==================================================
-                        SELECTED LABEL
-                    ================================================== */}
-
-                    {isActive && (
-
-                      <span className="mail-card-selected">
-                        Selected
-                      </span>
-
-                    )}
-
-                  </button>
-
-                );
-
-              }
-            )}
-
-          </div>
-
-
-          {/* ==================================================
-              RIGHT ARROW
-          ================================================== */}
-
-          <button
-            type="button"
-            className="carousel-arrow carousel-arrow-right"
-            onClick={moveNext}
-            aria-label="Next mail experience"
-          >
-            →
-          </button>
-
-        </section>
-
-
-        {/* ==================================================
-            CAROUSEL DOTS
-        ================================================== */}
-
-        <div className="carousel-dots">
-
-          {experiences.map(
-            (experience, index) => (
-
-              <button
-                type="button"
-                key={experience.id}
-                className={
-                  index === activeIndex
-                    ? "carousel-dot active"
-                    : "carousel-dot"
-                }
-                onClick={() =>
-                  selectCard(index)
-                }
-                aria-label={`Show ${experience.title}`}
-              />
-
-            )
-          )}
-
+          <div className="subscription-background-orb orb-three" />
         </div>
 
+        {/* =================================================
+            HERO
+        ================================================= */}
 
-        {/* ==================================================
-            SELECTED CARD CONTENT
-            ================================================== */}
+        <section className="subscription-hero">
+          <div className="subscription-hero-content">
 
-        <section
-          className="subscription-detail"
-          key={activeExperience.id}
-        >
-
-          <div className="subscription-detail-inner">
-
-
-            {/* ==================================================
-                CONTENT — EYEBROW
-            ================================================== */}
-
-            <p className="detail-eyebrow">
-              {activeExperience.eyebrow}
+            <p className="subscription-eyebrow">
+              Four ways to send &amp; receive
             </p>
 
+            <h1 className="subscription-heading">
+              Choose your correspondence
+            </h1>
 
-            {/* ==================================================
-                CONTENT — HEADING
-            ================================================== */}
-
-            <h2>
-              {activeExperience.heading}
-            </h2>
-
-
-            {/* ==================================================
-                CONTENT — DESCRIPTION
-            ================================================== */}
-
-            <p className="detail-description">
-              {activeExperience.description}
+            <p className="subscription-intro">
+              Each membership is its own small world.
+              Choose the kind of correspondence you
+              want to make space for.
             </p>
-
-
-            {/* ==================================================
-                CONTENT — ITEMS
-            ================================================== */}
-
-            <div className="detail-items">
-
-              {activeExperience.items.map(
-                (item, index) => (
-
-                  <div
-                    className="detail-item"
-                    key={item}
-                  >
-
-                    <span className="detail-item-number">
-                      {String(index + 1).padStart(
-                        2,
-                        "0"
-                      )}
-                    </span>
-
-                    <span>
-                      {item}
-                    </span>
-
-                  </div>
-
-                )
-              )}
-
-            </div>
-
-
-            {/* ==================================================
-                CONTENT — THEMES
-            ================================================== */}
-
-            <div className="detail-themes">
-
-              <h3>
-                {activeExperience.themeTitle}
-              </h3>
-
-              <div className="theme-list">
-
-                {activeExperience.themes.map(
-                  (theme) => (
-
-                    <span
-                      className="theme-pill"
-                      key={theme}
-                    >
-                      {theme}
-                    </span>
-
-                  )
-                )}
-
-              </div>
-
-            </div>
-
-
-            {/* ==================================================
-                CONTENT — NOTE
-            ================================================== */}
-
-            <p className="detail-note">
-              {activeExperience.note}
-            </p>
-
-
-            {/* ==================================================
-                CONTENT — BUTTON
-            ================================================== */}
-
-            <button
-              type="button"
-              className="join-button"
-            >
-              Explore{" "}
-              {activeExperience.shortTitle}
-
-              <span>
-                →
-              </span>
-
-            </button>
 
           </div>
-
         </section>
 
+        {/* =================================================
+            EXPERIENCE SELECTOR
+        ================================================= */}
 
-        {/* ==================================================
-            ENDING
-        ================================================== */}
+        <section
+          className="subscription-selector"
+          aria-label="Subscription experiences"
+        >
+          <div
+            className="subscription-card-grid"
+            role="tablist"
+            aria-label="Choose a correspondence experience"
+          >
 
-        <section className="subscription-ending">
+            {THEMES.map((theme, index) => {
+              const isActive =
+                theme.id === activeId;
 
-          <p>
-            Slow mail.
-            <span>
-              {" "}Meaningful moments.
-            </span>
-          </p>
+              return (
+                <button
+                  key={theme.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`subscription-panel-${theme.id}`}
+                  className={`subscription-card ${
+                    isActive
+                      ? "is-active"
+                      : "is-inactive"
+                  }`}
+                  data-card-theme={theme.id}
+                  onClick={() =>
+                    setActiveId(theme.id)
+                  }
+                >
 
+                  <span className="subscription-card-number">
+                    {String(index + 1).padStart(
+                      2,
+                      "0"
+                    )}
+                  </span>
+
+                  <span className="subscription-card-content">
+
+                    <span className="subscription-card-eyebrow">
+                      {theme.eyebrow}
+                    </span>
+
+                    <span className="subscription-card-title">
+                      {theme.title}
+                    </span>
+
+                    <span className="subscription-card-lede">
+                      {theme.lede}
+                    </span>
+
+                  </span>
+
+                  <span
+                    className="subscription-card-arrow"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+
+                </button>
+              );
+            })}
+
+          </div>
         </section>
 
+        {/* =================================================
+            ACTIVE EXPERIENCE
+        ================================================= */}
+
+        <section
+          id={`subscription-panel-${activeId}`}
+          className="subscription-experience"
+          data-active-theme={activeId}
+          role="tabpanel"
+          aria-label={`${activeTheme.title} experience`}
+        >
+          <ActiveExperience
+            activeId={activeId}
+            isSubscribed={isSubscribed}
+            onSubscribe={handleSubscribe}
+          />
+        </section>
 
       </main>
 
-
-      {/* ==================================================
-          FOOTER
-      ================================================== */}
-
       <Footer variant="subscription" />
-
     </>
   );
-
 }
-
-
-export default Subscription;

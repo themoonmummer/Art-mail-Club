@@ -1,124 +1,599 @@
 /* ==========================================
-   Hero Section
+   HERO
 ========================================== */
 
 .hero {
-  min-height: 100vh;
+  position: relative;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 100vh;
+  min-height: 700px;
 
-  padding: 80px 40px;
-
-  background:
-    radial-gradient(circle at top,
-      rgba(255,226,190,.45),
-      transparent 45%),
-    linear-gradient(
-      to bottom,
-      #fffdfb,
-      #fdf6ef,
-      #f7eadc,
-      #f1dfcd
-    );
+  margin-top: -84px;
 
   overflow: hidden;
+
+  background: #091524;
+
+  color: #606f49;
 }
 
+
 /* ==========================================
-   Hero Scene
+   DAY BACKGROUND
+========================================== */
+
+.hero-background {
+  position: absolute;
+
+  inset: -2%;
+
+  z-index: 1;
+
+  background-image:
+    url("../../assets/textures/herobg.jpeg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+
+  transform: scale(1.045);
+
+  will-change:
+    opacity,
+    transform;
+
+  filter:
+    saturate(.96)
+    brightness(1.02);
+}
+
+
+/* ==========================================
+   NIGHT BLUE
+========================================== */
+
+.hero-night {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  background:
+    radial-gradient(
+      ellipse at 48% 45%,
+      #20364c 0%,
+      #172a3d 45%,
+      #0c1827 78%,
+      #081320 100%
+    );
+
+  opacity: 1;
+
+  will-change: opacity;
+}
+
+
+/* ==========================================
+   SUNLIGHT
+==========================================
+
+   SINGLE LIGHT SOURCE.
+
+   The light originates from outside the
+   upper-right corner.
+
+   There is intentionally NO center light.
+========================================== */
+
+.hero-sunlight {
+  position: absolute;
+
+  top: -48vh;
+  right: -42vw;
+
+  width: 115vw;
+  height: 115vw;
+
+  z-index: 4;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+
+      rgba(255, 252, 229, .90) 0%,
+
+      rgba(255, 239, 201, .64) 13%,
+
+      rgba(255, 219, 163, .34) 29%,
+
+      rgba(255, 198, 130, .14) 47%,
+
+      rgba(255, 186, 113, .045) 63%,
+
+      transparent 76%
+    );
+
+  filter: blur(16px);
+
+  transform:
+    scale(.48);
+
+  transform-origin:
+    top right;
+
+  mix-blend-mode:
+    screen;
+
+  will-change:
+    opacity,
+    transform;
+}
+
+
+/* ==========================================
+   LONG SUN RAYS
+========================================== */
+
+.hero-sun-rays {
+  position: absolute;
+
+  inset: -22%;
+
+  z-index: 5;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background:
+    linear-gradient(
+      137deg,
+
+      transparent 0%,
+      transparent 25%,
+
+      rgba(255, 244, 211, .025) 31%,
+      rgba(255, 235, 190, .13) 39%,
+
+      transparent 48%,
+      transparent 55%,
+
+      rgba(255, 229, 177, .09) 61%,
+
+      transparent 70%,
+      transparent 100%
+    );
+
+  transform-origin:
+    top right;
+
+  mix-blend-mode:
+    screen;
+
+  filter:
+    blur(10px);
+
+  will-change:
+    opacity;
+}
+
+
+/* ==========================================
+   UPPER-RIGHT SUN WASH
+========================================== */
+
+.hero-sun-wash {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 6;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background:
+    radial-gradient(
+      ellipse 78% 82%
+      at 100% 0%,
+
+      rgba(255, 246, 218, .34) 0%,
+
+      rgba(255, 230, 185, .17) 23%,
+
+      rgba(255, 211, 153, .07) 43%,
+
+      transparent 68%
+    );
+
+  mix-blend-mode:
+    screen;
+
+  will-change:
+    opacity;
+}
+
+
+/* ==========================================
+   MAIN SCENE
 ========================================== */
 
 .hero-scene {
-
   position: relative;
 
-  width: min(1400px, 100%);
-  height: 760px;
+  z-index: 20;
+
+  width:
+    min(1240px, 92vw);
+
+  height: 100%;
 
   margin: 0 auto;
 }
 
+
 /* ==========================================
-   Story
+   CONTENT
 ========================================== */
+
 .hero-content {
+  position: absolute;
 
-    position: absolute;
+  left: 2%;
 
-    width: 430px;
+  top: 50%;
 
-    top: 140px;
-    left: 40px;
+  width: 390px;
 
-    z-index: 5;
+  transform:
+    translateY(-50%);
+
+  z-index: 100;
 }
+
+
+.hero-copy {
+  padding:
+    17px
+    21px
+    20px;
+
+  border-radius: 17px;
+
+  background:
+    rgba(255,250,240,.45);
+
+  border:
+    1px solid
+    rgba(255,255,255,.78);
+
+  box-shadow:
+    0 18px 45px
+    rgba(50,40,25,.08);
+
+  backdrop-filter:
+    blur(5px);
+}
+
+
+/* ==========================================
+   TAGLINE
+========================================== */
 
 .hero-tagline {
+  margin:
+    0 0 8px;
 
-  margin-bottom: 18px;
+  color:
+    #606f49;
 
-  text-transform: uppercase;
+  font-size:
+    11px;
 
-  letter-spacing: 2px;
+  line-height:
+    1.35;
 
-  color: var(--color-wood);
+  letter-spacing:
+    1.5px;
 
-  font-size: 14px;
+  text-transform:
+    uppercase;
+
+  text-shadow:
+    0 1px 0
+    rgba(255,255,255,.95);
 }
+
+
+/* ==========================================
+   TITLE
+========================================== */
 
 .hero-content h1 {
+  margin:
+    0 0 13px;
 
-  font-family: var(--font-heading);
+  font-family:
+    var(--font-heading),
+    Georgia,
+    serif;
 
-  font-size: 64px;
+  font-size:
+    clamp(48px, 5vw, 62px);
 
-  line-height: 1.05;
+  line-height:
+    .98;
 
-  margin-bottom: 24px;
+  letter-spacing:
+    -1.5px;
+
+  color:
+    #606f49;
+
+  text-shadow:
+    0 1px 0
+    rgba(255,255,255,.95),
+
+    0 2px 8px
+    rgba(70,70,40,.12);
 }
+
+
+/* ==========================================
+   DESCRIPTION
+========================================== */
 
 .hero-description {
+  max-width:
+    350px;
 
-  line-height: 1.9;
+  margin:
+    0 0 19px;
 
-  color: var(--color-text-light);
+  color:
+    #606f49;
 
-  font-size: 18px;
+  font-size:
+    15px;
 
-  margin-bottom: 42px;
+  line-height:
+    1.52;
+
+  text-shadow:
+    0 1px 0
+    rgba(255,255,255,.95);
 }
 
+
+/* ==========================================
+   BUTTON
+========================================== */
+
 .hero-button {
+  display:
+    inline-flex;
 
-  padding: 15px 34px;
+  align-items:
+    center;
 
-  border-radius: var(--radius-pill);
+  justify-content:
+    center;
 
-  background: var(--color-wood);
+  padding:
+    12px 27px;
 
-  color: white;
+  border:
+    0;
 
-  transition: .3s;
+  border-radius:
+    999px;
+
+  background:
+    #606f49;
+
+  color:
+    #fffdf7;
+
+  font-size:
+    14px;
+
+  cursor:
+    pointer;
+
+  box-shadow:
+    0 8px 18px
+    rgba(75,88,53,.18);
+
+  transition:
+    transform .3s ease,
+    background .3s ease,
+    box-shadow .3s ease;
 }
 
 .hero-button:hover {
+  background:
+    #4f5d3c;
 
-  background: var(--color-wood-hover);
+  transform:
+    translateY(-3px);
 
-  transform: translateY(-3px);
+  box-shadow:
+    0 12px 25px
+    rgba(75,88,53,.25);
 }
 
+
 /* ==========================================
-   Room
+   WINDOW
 ========================================== */
+
 .hero-room {
+  position: absolute;
 
-    position: absolute;
+  right: 3%;
 
-    top: 70px;
-    right: 20px;
+  top: 50%;
 
-    z-index: 2;
+  transform:
+    translateY(-50%)
+    scale(.88);
+
+  transform-origin:
+    center;
+
+  z-index: 30;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (min-width: 1100px) {
+
+  .hero-scene {
+    width:
+      min(1240px, 92vw);
+  }
+
+  .hero-content {
+    left:
+      1%;
+  }
+
+  .hero-room {
+    right:
+      2%;
+  }
+}
+
+
+@media (max-width: 1000px) {
+
+  .hero {
+    margin-top:
+      -72px;
+
+    min-height:
+      100svh;
+
+    height:
+      auto;
+
+    padding:
+      72px 0 60px;
+  }
+
+  .hero-scene {
+    width:
+      100%;
+
+    height:
+      820px;
+  }
+
+  .hero-content {
+    top:
+      105px;
+
+    left:
+      50%;
+
+    width:
+      min(500px, 86vw);
+
+    transform:
+      translateX(-50%);
+
+    text-align:
+      center;
+  }
+
+  .hero-description {
+    margin-left:
+      auto;
+
+    margin-right:
+      auto;
+  }
+
+  .hero-room {
+    top:
+      480px;
+
+    right:
+      50%;
+
+    transform:
+      translateX(50%)
+      scale(.75);
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .hero {
+    margin-top:
+      -62px;
+
+    min-height:
+      100svh;
+
+    padding-top:
+      62px;
+  }
+
+  .hero-scene {
+    height:
+      750px;
+  }
+
+  .hero-content {
+    top:
+      62px;
+
+    width:
+      90vw;
+  }
+
+  .hero-copy {
+    padding:
+      14px
+      17px
+      17px;
+  }
+
+  .hero-content h1 {
+    font-size:
+      42px;
+  }
+
+  .hero-description {
+    font-size:
+      13.5px;
+  }
+
+  .hero-room {
+    top:
+      395px;
+
+    right:
+      50%;
+
+    transform:
+      translateX(50%)
+      scale(.59);
+  }
 }

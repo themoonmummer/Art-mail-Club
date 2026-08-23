@@ -1,10 +1,13 @@
-/* ==========================================
-   Art Mail Club Design System
-========================================== */
+/* =========================================================
+   ART MAIL CLUB
+   GLOBAL DESIGN SYSTEM
+   ========================================================= */
 
 :root {
 
-  /* ========= Colors ========= */
+  /* =======================================================
+     COLORS
+  ======================================================= */
 
   --color-background: #FFFBF7;
   --color-paper: #EEE4DA;
@@ -20,76 +23,504 @@
 
   --color-border: #D8C4AC;
 
-  /* ========= Fonts ========= */
+
+  /* =======================================================
+     FONTS
+  ======================================================= */
 
   --font-heading: "Cinzel", serif;
   --font-body: "Times New Roman", serif;
 
-  /* ========= Font Sizes ========= */
+
+  /* =======================================================
+     RESPONSIVE FONT SIZES
+  ======================================================= */
 
   --fs-small: 14px;
   --fs-body: 16px;
   --fs-subheading: 24px;
   --fs-heading: 48px;
 
-  /* ========= Border Radius ========= */
+
+  /* =======================================================
+     BORDER RADIUS
+  ======================================================= */
 
   --radius-small: 8px;
   --radius-medium: 14px;
   --radius-large: 22px;
   --radius-pill: 999px;
 
-  /* ========= Shadows ========= */
 
-  --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
-  --shadow-medium: 0 18px 40px rgba(0,0,0,0.12);
+  /* =======================================================
+     SHADOWS
+  ======================================================= */
 
-  /* ========= Animation ========= */
+  --shadow-soft:
+    0 10px 30px rgba(0, 0, 0, 0.08);
 
-  --transition-fast: 0.25s ease;
-  --transition-normal: 0.4s ease;
-  --transition-slow: 0.8s ease;
+  --shadow-medium:
+    0 18px 40px rgba(0, 0, 0, 0.12);
+
+
+  /* =======================================================
+     ANIMATION
+  ======================================================= */
+
+  --transition-fast:
+    0.25s ease;
+
+  --transition-normal:
+    0.4s ease;
+
+  --transition-slow:
+    0.8s ease;
+
+
+  /* =======================================================
+     GLOBAL LAYOUT
+  ======================================================= */
+
+  --page-padding: clamp(16px, 4vw, 60px);
+
+  --content-width: 1280px;
+
+  --text-width: 720px;
 
 }
-/* ========= Global Reset ========= */
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-  scroll-behavior:smooth;
+
+/* =========================================================
+   HTML
+========================================================= */
+
+html {
+  width: 100%;
+  min-height: 100%;
+
+  scroll-behavior: smooth;
+
+  overflow-x: hidden;
+
+  -webkit-text-size-adjust: 100%;
 }
 
-body{
 
-  background:var(--color-background);
-  color:var(--color-text);
-  font-family:var(--font-body);
-  overflow-x:hidden;
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+
+  margin: 0;
+
+  background:
+    var(--color-background);
+
+  color:
+    var(--color-text);
+
+  font-family:
+    var(--font-body);
+
+  font-size:
+    var(--fs-body);
+
+  line-height: 1.5;
+
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-a{
-  text-decoration:none;
-  color:inherit;
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
 }
 
-ul{
-  list-style:none;
+
+/* =========================================================
+   HEADINGS
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family:
+    var(--font-heading),
+    Georgia,
+    serif;
+
+  font-weight: 500;
+
+  line-height: 1.1;
 }
 
-img{
 
-  display:block;
-  max-width:100%;
+/* =========================================================
+   PARAGRAPHS
+========================================================= */
+
+p {
+  margin: 0;
 }
 
-button{
 
-  border:none;
-  background: none;
-  font-family:inherit;
+/* =========================================================
+   LINKS
+========================================================= */
+
+a {
+  color: inherit;
+
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   LISTS
+========================================================= */
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+
+/* =========================================================
+   IMAGES
+========================================================= */
+
+img {
+  display: block;
+
+  max-width: 100%;
+
+  height: auto;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+  border: none;
+
+  background: transparent;
+
+  color: inherit;
+
+  font-family: inherit;
+
+  font-size: inherit;
+
   cursor: pointer;
+
+  touch-action: manipulation;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+input,
+textarea,
+select {
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+textarea {
+  resize: vertical;
+}
+
+
+/* =========================================================
+   SVG
+========================================================= */
+
+svg {
+  display: block;
+
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+video {
+  display: block;
+
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+canvas {
+  display: block;
+
+  max-width: 100%;
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline:
+    2px solid
+    var(--color-wood-hover);
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+  background:
+    rgba(132, 96, 68, 0.2);
+
+  color:
+    var(--color-text);
+}
+
+
+/* =========================================================
+   MOBILE TOUCH
+========================================================= */
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+
+/* =========================================================
+   PREVENT LONG CONTENT FROM BREAKING LAYOUT
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a {
+  overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   GLOBAL CONTAINER UTILITY
+========================================================= */
+
+.app-container {
+  width: min(
+    var(--content-width),
+    calc(100% - (var(--page-padding) * 2))
+  );
+
+  margin-inline: auto;
+}
+
+
+/* =========================================================
+   FULL WIDTH UTILITY
+========================================================= */
+
+.full-width {
+  width: 100%;
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+
+  :root {
+
+    --fs-heading:
+      clamp(
+        38px,
+        6vw,
+        48px
+      );
+
+    --fs-subheading:
+      clamp(
+        20px,
+        3vw,
+        24px
+      );
+
+    --fs-body: 15px;
+
+    --page-padding:
+      clamp(
+        20px,
+        4vw,
+        40px
+      );
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  :root {
+
+    --fs-heading:
+      clamp(
+        32px,
+        10vw,
+        42px
+      );
+
+    --fs-subheading:
+      clamp(
+        19px,
+        6vw,
+        24px
+      );
+
+    --fs-body: 15px;
+
+    --fs-small: 13px;
+
+    --page-padding: 18px;
+  }
+
+
+  body {
+    font-size: 15px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  :root {
+
+    --fs-heading: 30px;
+
+    --fs-subheading: 19px;
+
+    --fs-body: 14px;
+
+    --fs-small: 12px;
+
+    --page-padding: 14px;
+  }
+
+
+  body {
+    min-width: 320px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+
+    scroll-behavior:
+      auto !important;
+  }
+
 }

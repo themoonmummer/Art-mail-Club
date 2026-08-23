@@ -17,7 +17,7 @@ function MyClubs({
           </p>
 
           <h2>
-            My Clubs
+            My Theme's
           </h2>
         </div>
 
@@ -69,7 +69,7 @@ function MyClubs({
             });
         }}
       >
-        Discover more clubs
+        Discover more Theme
         <span>→</span>
       </button>
 

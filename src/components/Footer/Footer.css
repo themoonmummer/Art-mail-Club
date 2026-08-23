@@ -134,9 +134,9 @@
 
 .footer-home,
 .footer-default {
-    background: #f4e8d8;
+    background: rgba(88, 119, 43, 0.34);
 
-    color: #684b38;
+    color: #e7e3ab;
 }
 
 
@@ -230,6 +230,18 @@
     color: #f8d9ad;
 }
 
+/*profile*/
+
+.footer-profile {
+    background:#2b1b10;
+
+    color: #f2dfc0;
+}
+
+
+.footer-profile .footer-links a:hover {
+    color: #ffd98b;
+}
 
 /* ==================================================
    MOBILE

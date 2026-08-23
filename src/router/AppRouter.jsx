@@ -5,6 +5,7 @@ import Community from "../Pages/Community";
 import Contact from "../Pages/Contact";
 import Home from "../pages/Home";
 import Subscription from "../pages/Subscription";
+import Profile from "../pages/Profile";
 
 
 function AppRouter() {
@@ -21,7 +22,7 @@ function AppRouter() {
   path="/subscription"
   element={<Subscription />}
 />
-
+<Route path="/profile" element={<Profile />} />
 
       </Routes>
     </BrowserRouter>

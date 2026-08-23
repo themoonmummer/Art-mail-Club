@@ -2,35 +2,48 @@ import "./WindowScene.css";
 
 function WindowScene() {
   return (
-   <div className="window-scene">
+    <div className="window-scene cinematic-window">
 
-      <div className="window-frame">
+      {/* =================================
+          ROOM / OUTSIDE SCENE
+      ================================= */}
 
-        <div className="window-glass">
+      <div className="scene-art" />
 
-          {/* Sky */}
-          <div className="sky"></div>
 
-          {/* Sun */}
-          <div className="sun"></div>
+      {/* =================================
+          GLASS
+      ================================= */}
 
-          {/* Clouds */}
-          <div className="cloud cloud-left"></div>
-          <div className="cloud cloud-right"></div>
+      <div className="window-glass">
 
-          {/* Landscape */}
-          <div className="landscape"></div>
+        <div className="glass-daylight" />
 
-        </div>
+        <div className="glass-sun-glow" />
 
-        {/* Window Dividers */}
-        <div className="window-divider window-divider-vertical"></div>
-        <div className="window-divider window-divider-horizontal"></div>
+        <div className="glass-reflection" />
 
       </div>
 
-      {/* Window Sill */}
-      <div className="window-sill"></div>
+
+      {/* =================================
+          WOODEN FRAME
+      ================================= */}
+
+      <div className="window-frame">
+
+        <div className="window-divider window-divider-vertical" />
+
+        <div className="window-divider window-divider-horizontal" />
+
+      </div>
+
+
+      {/* =================================
+          SILL
+      ================================= */}
+
+      <div className="window-sill" />
 
     </div>
   );

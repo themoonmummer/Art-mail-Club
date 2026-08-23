@@ -49,7 +49,7 @@ function ClubCard({
             onJoin?.(club.id)
           }
         >
-          Join Club
+          Join Theme
         </button>
       )}
 

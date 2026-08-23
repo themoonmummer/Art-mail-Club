@@ -1,1204 +1,958 @@
-/* =====================================================
+/* =========================================================
    SUBSCRIPTION PAGE
-===================================================== */
+   PAGE SHELL ONLY
 
-.subscription {
-    min-height: 100vh;
+   Individual experience components have their own CSS.
+   Do NOT put MailClub / SecretMail / TimeCapsule /
+   MysteryMail component styling in this file.
+   ========================================================= */
 
-    padding:
-        110px 0 140px;
+.subscription-page {
+  --subscription-transition:
+    650ms cubic-bezier(0.22, 1, 0.36, 1);
 
-    background:
-        radial-gradient(
-            ellipse at 50% 0%,
-            rgba(255, 248, 238, 0.75),
-            transparent 45%
-        ),
-        #e8d6c0;
+  position: relative;
+  isolation: isolate;
 
-    color: #4a3728;
+  width: 100%;
+  min-height: 100vh;
 
-    overflow: hidden;
+  overflow: hidden;
+
+  color: var(--subscription-ink);
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--subscription-bg-one),
+      var(--subscription-bg-two)
+    );
+
+  transition:
+    background var(--subscription-transition),
+    color var(--subscription-transition);
 }
 
 
-/* =====================================================
-   INTRO CONTENT
-===================================================== */
+/* =========================================================
+   THEME VARIABLES
+   These belong to the subscription page itself.
+   ========================================================= */
 
-.subscription-intro {
-    max-width: 760px;
+.subscription-page[data-theme="autumn"] {
+  --subscription-bg-one: #f5ecdc;
+  --subscription-bg-two: #e5ceb0;
 
-    margin:
-        0 auto 65px;
+  --subscription-ink: #40291b;
+  --subscription-ink-soft: #75563c;
 
-    padding:
-        0 30px;
+  --subscription-accent: #b45420;
+  --subscription-accent-dark: #8f3f16;
 
-    text-align: center;
+  --subscription-card-bg: rgba(255, 250, 240, 0.88);
+  --subscription-card-border: #d9bd92;
+
+  --subscription-shadow: rgba(80, 48, 20, 0.16);
 }
+
+
+.subscription-page[data-theme="rain"] {
+  --subscription-bg-one: #e8eef1;
+  --subscription-bg-two: #c5d0d7;
+
+  --subscription-ink: #283943;
+  --subscription-ink-soft: #5d707b;
+
+  --subscription-accent: #466674;
+  --subscription-accent-dark: #304d5a;
+
+  --subscription-card-bg: rgba(248, 250, 251, 0.9);
+  --subscription-card-border: #bac9d0;
+
+  --subscription-shadow: rgba(39, 56, 66, 0.14);
+}
+
+
+.subscription-page[data-theme="greenery"] {
+  --subscription-bg-one: #eef2e5;
+  --subscription-bg-two: #ccd9bb;
+
+  --subscription-ink: #34432d;
+  --subscription-ink-soft: #637251;
+
+  --subscription-accent: #6d8754;
+  --subscription-accent-dark: #506b3b;
+
+  --subscription-card-bg: rgba(250, 248, 237, 0.9);
+  --subscription-card-border: #c5d0af;
+
+  --subscription-shadow: rgba(49, 66, 38, 0.14);
+}
+
+
+.subscription-page[data-theme="sunny"] {
+  --subscription-bg-one: #fff0cb;
+  --subscription-bg-two: #f3c889;
+
+  --subscription-ink: #593b1e;
+  --subscription-ink-soft: #89623a;
+
+  --subscription-accent: #d47a3d;
+  --subscription-accent-dark: #b75e29;
+
+  --subscription-card-bg: rgba(255, 250, 240, 0.9);
+  --subscription-card-border: #eccb91;
+
+  --subscription-shadow: rgba(103, 67, 24, 0.15);
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.subscription-background {
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  overflow: hidden;
+}
+
+
+.subscription-background-glow {
+  position: absolute;
+  inset: -20%;
+
+  background:
+    radial-gradient(
+      circle at 50% 10%,
+      rgba(255, 255, 255, 0.4),
+      transparent 35%
+    );
+
+  opacity: 0.8;
+
+  transition:
+    background var(--subscription-transition),
+    opacity var(--subscription-transition);
+}
+
+
+.subscription-background-grain {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.18;
+
+  background-image:
+    radial-gradient(
+      rgba(50, 35, 20, 0.08) 1px,
+      transparent 1px
+    );
+
+  background-size: 5px 5px;
+
+  mix-blend-mode: multiply;
+}
+
+
+.subscription-background-orb {
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+
+  filter: blur(12px);
+
+  opacity: 0.18;
+
+  transition:
+    transform 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 700ms ease,
+    opacity 700ms ease;
+}
+
+
+.orb-one {
+  left: -180px;
+  top: 18%;
+
+  background:
+    var(--subscription-accent);
+}
+
+
+.orb-two {
+  right: -200px;
+  top: 45%;
+
+  background:
+    var(--subscription-accent);
+}
+
+
+.orb-three {
+  left: 40%;
+  bottom: -300px;
+
+  background:
+    var(--subscription-accent);
+}
+
+
+/* Slight movement depending on active theme */
+
+.subscription-page[data-theme="autumn"]
+.subscription-background-orb {
+  transform: translate3d(0, 0, 0);
+}
+
+
+.subscription-page[data-theme="rain"]
+.subscription-background-orb {
+  transform: translate3d(-20px, 10px, 0);
+}
+
+
+.subscription-page[data-theme="greenery"]
+.subscription-background-orb {
+  transform: translate3d(18px, -12px, 0);
+}
+
+
+.subscription-page[data-theme="sunny"]
+.subscription-background-orb {
+  transform: translate3d(10px, 18px, 0);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.subscription-hero {
+  position: relative;
+
+  width:
+    min(1180px, calc(100% - 48px));
+
+  margin: 0 auto;
+
+  padding:
+    95px 0 70px;
+}
+
+
+.subscription-hero-content {
+  width:
+    min(720px, 100%);
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
 
 .subscription-eyebrow {
-    margin:
-        0 0 16px;
+  margin:
+    0 0 14px;
 
-    color: #866246;
+  font-family:
+    var(--font-body);
 
-    font-size: 12px;
+  font-size:
+    0.72rem;
 
-    font-weight: 600;
+  font-weight:
+    600;
 
-    letter-spacing: 3px;
+  letter-spacing:
+    0.18em;
 
-    text-transform: uppercase;
-}
+  text-transform:
+    uppercase;
 
-.subscription-intro h1 {
-    margin:
-        0 0 25px;
-
-    color: #493527;
-
-    font-family:
-        var(--font-heading);
-
-    font-size:
-        clamp(48px, 5vw, 72px);
-
-    line-height: 1.05;
-
-    font-weight: 500;
-}
-
-.subscription-intro-text {
-    max-width: 600px;
-
-    margin:
-        0 auto;
-
-    color: #806a55;
-
-    font-size: 17px;
-
-    line-height: 1.9;
+  color:
+    var(--subscription-accent);
 }
 
 
-/* =====================================================
-   CARD CAROUSEL
-===================================================== */
+.subscription-heading {
+  margin:
+    0 0 20px;
 
-.mail-carousel {
-    position: relative;
+  font-family:
+    var(--font-display);
 
-    width: 100%;
+  font-size:
+    clamp(3rem, 7vw, 5.5rem);
 
-    height: 430px;
+  font-weight:
+    500;
 
-    display: flex;
+  line-height:
+    0.95;
 
-    align-items: center;
-    justify-content: center;
+  letter-spacing:
+    -0.035em;
 
-    overflow: hidden;
+  color:
+    var(--subscription-ink);
 }
 
 
-/* =====================================================
-   CARD STAGE
-===================================================== */
+.subscription-intro {
+  max-width:
+    620px;
 
-.mail-cards {
-    position: relative;
+  margin:
+    0 auto;
 
-    width: 100%;
+  font-family:
+    var(--font-body);
 
-    height: 100%;
+  font-size:
+    1rem;
 
-    display: flex;
+  line-height:
+    1.75;
 
-    align-items: center;
-    justify-content: center;
+  color:
+    var(--subscription-ink-soft);
 }
 
 
-/* =====================================================
-   CARD BASE
-===================================================== */
+/* =========================================================
+   CARD SELECTOR
+   ========================================================= */
 
-.mail-card {
-    position: absolute;
+.subscription-selector {
+  position: relative;
 
-    top: 50%;
-    left: 50%;
+  width:
+    min(1180px, calc(100% - 48px));
 
-    width: 330px;
-    height: 300px;
+  margin:
+    0 auto;
 
-    padding: 30px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    text-align: left;
-
-    border:
-        1px solid
-        rgba(91, 64, 42, 0.14);
-
-    border-radius: 20px;
-
-    background: #f0dfcc;
-
-    color: #4a3728;
-
-    box-shadow:
-        0 12px 28px
-        rgba(76, 52, 33, 0.08);
-
-    cursor: pointer;
-
-    transform-origin: center center;
-
-    transition:
-        transform 550ms
-            cubic-bezier(
-                0.22,
-                0.61,
-                0.36,
-                1
-            ),
-        opacity 450ms ease,
-        filter 450ms ease,
-        box-shadow 450ms ease;
-
-    will-change:
-        transform,
-        opacity;
-
-    font-family: inherit;
-
-    z-index: 1;
+  padding:
+    20px 0 100px;
 }
 
 
-/* =====================================================
-   CARD — ACTIVE
-===================================================== */
+.subscription-card-grid {
+  display: grid;
 
-.mail-card.active {
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
 
-    width: 370px;
-
-    height: 335px;
-
-    transform:
-        translate(
-            -50%,
-            -50%
-        )
-        scale(1.04);
-
-    background: #f3e3d1;
-
-    border-color:
-        rgba(91, 64, 42, 0.23);
-
-    box-shadow:
-        0 25px 55px
-        rgba(76, 52, 33, 0.17);
-
-    opacity: 1;
-
-    filter: none;
-
-    z-index: 5;
-
-    cursor: default;
+  gap:
+    18px;
 }
 
 
-/* =====================================================
-   CARD — PREVIOUS
-===================================================== */
+/* =========================================================
+   ACTUAL SUBSCRIPTION CARDS
+   ========================================================= */
 
-.mail-card.previous {
+.subscription-card {
+  position: relative;
 
-    transform:
-        translate(
-            calc(-50% - 390px),
-            -50%
-        )
-        scale(0.88);
+  display: flex;
 
-    opacity: 0.55;
+  flex-direction: column;
 
-    filter:
-        saturate(0.65)
-        brightness(0.98);
+  min-height:
+    300px;
 
-    z-index: 2;
+  padding:
+    27px 25px;
+
+  border:
+    1px solid var(--subscription-card-border);
+
+  border-radius:
+    20px;
+
+  background:
+    var(--subscription-card-bg);
+
+  color:
+    var(--subscription-ink);
+
+  text-align:
+    left;
+
+  cursor:
+    pointer;
+
+  overflow:
+    hidden;
+
+  box-shadow:
+    0 22px 50px -32px
+    var(--subscription-shadow);
+
+  backdrop-filter:
+    blur(8px);
+
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 450ms ease,
+    opacity 450ms ease,
+    background 450ms ease;
 }
 
 
-/* =====================================================
-   CARD — NEXT
-===================================================== */
+/* Card paper texture */
 
-.mail-card.next {
+.subscription-card::before {
+  content: "";
 
-    transform:
-        translate(
-            calc(-50% + 390px),
-            -50%
-        )
-        scale(0.88);
+  position: absolute;
+  inset: 0;
 
-    opacity: 0.55;
+  pointer-events: none;
 
-    filter:
-        saturate(0.65)
-        brightness(0.98);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.018) 0 1px,
+      transparent 1px 5px
+    );
 
-    z-index: 2;
+  opacity: 0.7;
 }
 
 
-/* =====================================================
-   CARD — FAR / BACKGROUND
-===================================================== */
+/* Card decorative accent */
 
-.mail-card.far {
+.subscription-card::after {
+  content: "";
 
-    transform:
-        translate(
-            -50%,
-            -50%
-        )
-        scale(0.72);
+  position: absolute;
 
-    opacity: 0;
+  width: 170px;
+  height: 170px;
 
-    pointer-events: none;
+  right: -80px;
+  top: -80px;
 
-    z-index: 0;
+  border-radius: 50%;
+
+  background:
+    var(--subscription-accent);
+
+  opacity: 0.08;
+
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 400ms ease;
 }
 
 
-/* =====================================================
-   CARD ICON
-===================================================== */
+.subscription-card:hover {
+  transform:
+    translateY(-8px);
 
-.mail-card-icon {
-
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 15px;
-
-    background: #d7b994;
-
-    color: #4a3728;
-
-    font-size: 27px;
-
-    margin-bottom: 28px;
+  box-shadow:
+    0 30px 60px -32px
+    var(--subscription-shadow);
 }
 
 
-/* ACTIVE ICON */
+.subscription-card:hover::after {
+  transform:
+    scale(1.35);
 
-.mail-card.active
-.mail-card-icon {
-
-    width: 66px;
-    height: 66px;
-
-    font-size: 31px;
-
-    background: #cfad89;
+  opacity:
+    0.13;
 }
 
 
-/* =====================================================
+/* =========================================================
+   ACTIVE / INACTIVE STATES
+   ========================================================= */
+
+.subscription-card.is-active {
+  transform:
+    translateY(-10px);
+
+  border-color:
+    var(--subscription-accent);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--subscription-card-bg) 94%,
+      var(--subscription-accent)
+    );
+
+  box-shadow:
+    0 30px 65px -34px
+    var(--subscription-shadow),
+    0 0 0 2px
+    color-mix(
+      in srgb,
+      var(--subscription-accent) 12%,
+      transparent
+    );
+
+  opacity:
+    1;
+}
+
+
+.subscription-card.is-active:hover {
+  transform:
+    translateY(-12px);
+}
+
+
+.subscription-card.is-inactive {
+  opacity:
+    0.72;
+
+  filter:
+    saturate(0.82);
+}
+
+
+.subscription-card.is-inactive:hover {
+  opacity:
+    0.95;
+
+  filter:
+    saturate(0.95);
+}
+
+
+.subscription-card:focus-visible {
+  outline:
+    2px solid
+    var(--subscription-accent);
+
+  outline-offset:
+    5px;
+}
+
+
+/* =========================================================
    CARD NUMBER
-===================================================== */
+   ========================================================= */
 
-.mail-card-number {
+.subscription-card-number {
+  position: relative;
 
-    color: #92775b;
+  z-index: 2;
 
-    font-size: 11px;
+  display: inline-flex;
 
-    letter-spacing: 2px;
+  align-items: center;
+  justify-content: center;
 
-    margin-bottom: 10px;
+  width:
+    38px;
+
+  height:
+    38px;
+
+  margin-bottom:
+    auto;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--subscription-accent) 45%,
+      var(--subscription-card-border)
+    );
+
+  border-radius:
+    50%;
+
+  color:
+    var(--subscription-accent);
+
+  font-family:
+    var(--font-body);
+
+  font-size:
+    0.65rem;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    0.05em;
 }
 
 
-/* =====================================================
-   CARD TITLE
-===================================================== */
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
 
-.mail-card-title {
+.subscription-card-content {
+  position: relative;
 
-    color: #4a3728;
+  z-index: 2;
 
-    font-family:
-        var(--font-heading);
+  display: flex;
 
-    font-size: 27px;
+  flex-direction: column;
 
-    line-height: 1.2;
-
-    font-weight: 500;
+  margin-top:
+    35px;
 }
 
 
-/* ACTIVE TITLE */
+.subscription-card-eyebrow {
+  margin-bottom:
+    9px;
 
-.mail-card.active
-.mail-card-title {
+  font-family:
+    var(--font-body);
 
-    font-size: 32px;
+  font-size:
+    0.62rem;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    0.13em;
+
+  text-transform:
+    uppercase;
+
+  color:
+    var(--subscription-accent);
 }
 
 
-/* =====================================================
-   CARD SELECTED LABEL
-===================================================== */
+.subscription-card-title {
+  margin-bottom:
+    12px;
 
-.mail-card-selected {
+  font-family:
+    var(--font-display);
 
-    margin-top: auto;
+  font-size:
+    1.55rem;
 
-    padding:
-        7px 13px;
+  font-weight:
+    600;
 
-    border-radius: 999px;
+  line-height:
+    1.08;
 
-    background: #d6b99a;
+  letter-spacing:
+    -0.015em;
 
-    color: #6f5741;
-
-    font-size: 10px;
-
-    letter-spacing: 1.5px;
-
-    text-transform: uppercase;
+  color:
+    var(--subscription-ink);
 }
 
 
-/* =====================================================
-   CARD HOVER
-===================================================== */
+.subscription-card-lede {
+  max-width:
+    240px;
 
-.mail-card.previous:hover,
-.mail-card.next:hover {
+  font-family:
+    var(--font-body);
 
-    opacity: 0.85;
+  font-size:
+    0.77rem;
+
+  line-height:
+    1.65;
+
+  color:
+    var(--subscription-ink-soft);
+}
+
+
+/* =========================================================
+   CARD ARROW
+   ========================================================= */
+
+.subscription-card-arrow {
+  position: absolute;
+
+  z-index: 2;
+
+  right:
+    23px;
+
+  bottom:
+    22px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    34px;
+
+  height:
+    34px;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--subscription-accent) 45%,
+      var(--subscription-card-border)
+    );
+
+  border-radius:
+    50%;
+
+  color:
+    var(--subscription-accent);
+
+  font-size:
+    1rem;
+
+  line-height:
+    1;
+
+  transition:
+    transform 300ms ease,
+    background 300ms ease,
+    color 300ms ease;
+}
+
+
+.subscription-card:hover
+.subscription-card-arrow {
+  transform:
+    translateX(4px);
+
+  background:
+    var(--subscription-accent);
+
+  color:
+    var(--subscription-card-bg);
+}
+
+
+/* =========================================================
+   DIFFERENT CARD ACCENTS
+   This changes only the selector cards.
+   It does NOT style the individual experiences.
+   ========================================================= */
+
+.subscription-card[data-card-theme="autumn"] {
+  --card-accent: #b45420;
+}
+
+
+.subscription-card[data-card-theme="rain"] {
+  --card-accent: #466674;
+}
+
+
+.subscription-card[data-card-theme="greenery"] {
+  --card-accent: #6d8754;
+}
+
+
+.subscription-card[data-card-theme="sunny"] {
+  --card-accent: #d47a3d;
+}
+
+
+.subscription-card[data-card-theme="autumn"]::after {
+  background:
+    #b45420;
+}
+
+
+.subscription-card[data-card-theme="rain"]::after {
+  background:
+    #466674;
+}
+
+
+.subscription-card[data-card-theme="greenery"]::after {
+  background:
+    #6d8754;
+}
+
+
+.subscription-card[data-card-theme="sunny"]::after {
+  background:
+    #d47a3d;
+}
+
+
+/* =========================================================
+   ACTIVE EXPERIENCE WRAPPER
+   ========================================================= */
+
+.subscription-experience {
+  position: relative;
+
+  width:
+    100%;
+
+  animation:
+    subscriptionExperienceIn
+    650ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+
+@keyframes subscriptionExperienceIn {
+  from {
+    opacity:
+      0;
 
     transform:
-        translate(
-            calc(-50% - 390px),
-            -50%
-        )
-        scale(0.92);
-}
+      translateY(25px);
+  }
 
-
-/*
-   Correct hover for NEXT
-*/
-
-.mail-card.next:hover {
+  to {
+    opacity:
+      1;
 
     transform:
-        translate(
-            calc(-50% + 390px),
-            -50%
-        )
-        scale(0.92);
+      translateY(0);
+  }
 }
 
 
-/* =====================================================
-   CAROUSEL ARROWS
-===================================================== */
-
-.carousel-arrow {
-
-    position: absolute;
-
-    top: 50%;
-
-    z-index: 20;
-
-    width: 52px;
-    height: 52px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border:
-        1px solid
-        rgba(91, 64, 42, 0.18);
-
-    border-radius: 50%;
-
-    background: #d5b898;
-
-    color: #4a3728;
-
-    cursor: pointer;
-
-    font-size: 18px;
-
-    transform:
-        translateY(-50%);
-
-    box-shadow:
-        0 8px 20px
-        rgba(76, 52, 33, 0.08);
-
-    transition:
-        transform 0.25s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-.carousel-arrow:hover {
-
-    background: #c39e78;
-
-    transform:
-        translateY(-50%)
-        scale(1.06);
-
-    box-shadow:
-        0 12px 25px
-        rgba(76, 52, 33, 0.14);
-}
-
-.carousel-arrow-left {
-    left: 25px;
-}
-
-.carousel-arrow-right {
-    right: 25px;
-}
-
-
-/* =====================================================
-   DOTS
-===================================================== */
-
-.carousel-dots {
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 9px;
-
-    margin:
-        25px 0 85px;
-}
-
-.carousel-dot {
-
-    width: 7px;
-    height: 7px;
-
-    padding: 0;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: #b99b7b;
-
-    cursor: pointer;
-
-    transition:
-        width 0.3s ease,
-        background 0.3s ease;
-}
-
-.carousel-dot.active {
-
-    width: 25px;
-
-    border-radius: 999px;
-
-    background: #806044;
-}
-
-
-/* =====================================================
-   DETAIL CONTENT
-===================================================== */
-
-.subscription-detail {
-
-    max-width: 1000px;
-
-    margin:
-        0 auto;
-
-    padding:
-        0 30px;
-
-    animation:
-        detailReveal
-        500ms
-        ease;
-}
-
-
-@keyframes detailReveal {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(12px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-/* =====================================================
-   DETAIL INNER
-===================================================== */
-
-.subscription-detail-inner {
-
-    padding:
-        65px 70px;
-
-    background: #f2e1cf;
-
-    border:
-        1px solid
-        rgba(91, 64, 42, 0.14);
-
-    border-radius: 22px;
-
-    box-shadow:
-        0 20px 45px
-        rgba(76, 52, 33, 0.09);
-
-    text-align: center;
-}
-
-
-/* =====================================================
-   DETAIL — EYEBROW
-===================================================== */
-
-.detail-eyebrow {
-
-    margin:
-        0 0 15px;
-
-    color: #866246;
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
-}
-
-
-/* =====================================================
-   DETAIL — HEADING
-===================================================== */
-
-.subscription-detail h2 {
-
-    max-width: 720px;
-
-    margin:
-        0 auto 22px;
-
-    color: #493527;
-
-    font-family:
-        var(--font-heading);
-
-    font-size:
-        clamp(35px, 4vw, 52px);
-
-    line-height: 1.15;
-
-    font-weight: 500;
-}
-
-
-/* =====================================================
-   DETAIL — DESCRIPTION
-===================================================== */
-
-.detail-description {
-
-    max-width: 700px;
-
-    margin:
-        0 auto 45px;
-
-    color: #806a55;
-
-    font-size: 16px;
-
-    line-height: 1.9;
-}
-
-
-/* =====================================================
-   DETAIL — ITEMS
-===================================================== */
-
-.detail-items {
-
-    max-width: 700px;
-
-    margin:
-        0 auto 45px;
-
-    display: grid;
-
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+  .subscription-card-grid {
     grid-template-columns:
-        repeat(2, 1fr);
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .subscription-card {
+    min-height:
+      270px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 680px) {
+  .subscription-hero {
+    width:
+      calc(100% - 30px);
+
+    padding:
+      60px 0 45px;
+  }
+
+
+  .subscription-heading {
+    font-size:
+      clamp(2.8rem, 15vw, 4.3rem);
+  }
+
+
+  .subscription-intro {
+    font-size:
+      0.9rem;
+  }
+
+
+  .subscription-selector {
+    width:
+      calc(100% - 30px);
+
+    padding:
+      10px 0 70px;
+  }
+
+
+  .subscription-card-grid {
+    grid-template-columns:
+      1fr;
 
     gap:
-        0 30px;
-
-    text-align: left;
-
-    border-top:
-        1px solid
-        rgba(91, 64, 42, 0.12);
-}
+      13px;
+  }
 
 
-/* =====================================================
-   DETAIL — ITEM
-===================================================== */
-
-.detail-item {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
+  .subscription-card {
+    min-height:
+      220px;
 
     padding:
-        15px 0;
+      23px 22px;
+  }
 
-    border-bottom:
-        1px solid
-        rgba(91, 64, 42, 0.10);
 
-    color: #594535;
+  .subscription-card.is-active {
+    transform:
+      translateY(-4px);
+  }
 
-    font-size: 14px;
+
+  .subscription-card:hover {
+    transform:
+      translateY(-4px);
+  }
+
+
+  .subscription-card-content {
+    margin-top:
+      25px;
+
+    padding-right:
+      35px;
+  }
+
+
+  .subscription-card-title {
+    font-size:
+      1.45rem;
+  }
+
+
+  .subscription-card-lede {
+    max-width:
+      290px;
+  }
 }
 
 
-.detail-item-number {
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
 
-    color: #a08468;
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-}
-
-
-/* =====================================================
-   DETAIL — THEMES
-===================================================== */
-
-.detail-themes {
-
-    margin:
-        0 auto 35px;
-}
-
-
-.detail-themes h3 {
-
-    margin:
-        0 0 20px;
-
-    color: #4a3728;
-
-    font-family:
-        var(--font-heading);
-
-    font-size: 25px;
-
-    font-weight: 500;
-}
-
-
-/* =====================================================
-   THEME LIST
-===================================================== */
-
-.theme-list {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    justify-content: center;
-
-    gap: 9px;
-}
-
-
-/* =====================================================
-   THEME PILL
-===================================================== */
-
-.theme-pill {
-
-    padding:
-        9px 15px;
-
-    border:
-        1px solid
-        rgba(91, 64, 42, 0.16);
-
-    border-radius: 999px;
-
-    background: #dfc6a9;
-
-    color: #6f5741;
-
-    font-size: 12px;
-}
-
-
-/* =====================================================
-   DETAIL — NOTE
-===================================================== */
-
-.detail-note {
-
-    max-width: 650px;
-
-    margin:
-        0 auto 30px;
-
-    color: #806a55;
-
-    font-family:
-        var(--font-heading);
-
-    font-size: 16px;
-
-    font-style: italic;
-
-    line-height: 1.8;
-}
-
-
-/* =====================================================
-   JOIN BUTTON
-===================================================== */
-
-.join-button {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    padding:
-        13px 23px;
-
-    border: none;
-
-    border-radius: 999px;
-
-    background: #6f4d31;
-
-    color: #f8efe5;
-
-    cursor: pointer;
-
-    font-family: inherit;
-
-    font-size: 13px;
+@media (prefers-reduced-motion: reduce) {
+  .subscription-page,
+  .subscription-page *,
+  .subscription-page *::before,
+  .subscription-page *::after {
+    animation:
+      none !important;
 
     transition:
-        transform 0.25s ease,
-        background 0.25s ease;
-}
-
-.join-button:hover {
-
-    background: #573b27;
-
-    transform:
-        translateY(-2px);
-}
-
-.join-button span {
-
-    font-size: 17px;
-}
-
-
-/* =====================================================
-   ENDING
-===================================================== */
-
-.subscription-ending {
-
-    padding:
-        110px 30px 20px;
-
-    text-align: center;
-}
-
-
-.subscription-ending p {
-
-    margin: 0;
-
-    color: #806a55;
-
-    font-family:
-        var(--font-heading);
-
-    font-size: 25px;
-
-    font-style: italic;
-}
-
-
-.subscription-ending span {
-
-    color: #6f4d31;
-}
-
-
-/* =====================================================
-   TABLET
-===================================================== */
-
-@media (max-width: 1100px) {
-
-    .mail-card {
-
-        width: 300px;
-
-        height: 280px;
-    }
-
-    .mail-card.active {
-
-        width: 340px;
-
-        height: 315px;
-    }
-
-    .mail-card.previous {
-
-        transform:
-            translate(
-                calc(-50% - 330px),
-                -50%
-            )
-            scale(0.84);
-    }
-
-    .mail-card.next {
-
-        transform:
-            translate(
-                calc(-50% + 330px),
-                -50%
-            )
-            scale(0.84);
-    }
-
-    .carousel-arrow-left {
-
-        left: 15px;
-    }
-
-    .carousel-arrow-right {
-
-        right: 15px;
-    }
-
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 700px) {
-
-    .subscription {
-
-        padding-top: 85px;
-    }
-
-
-    .subscription-intro {
-
-        margin-bottom: 40px;
-    }
-
-
-    .subscription-intro h1 {
-
-        font-size: 46px;
-    }
-
-
-    .mail-carousel {
-
-        height: 360px;
-    }
-
-
-    .mail-card {
-
-        width: 250px;
-
-        height: 245px;
-
-        padding: 23px;
-    }
-
-
-    .mail-card.active {
-
-        width: 285px;
-
-        height: 270px;
-    }
-
-
-    .mail-card.previous {
-
-        transform:
-            translate(
-                calc(-50% - 245px),
-                -50%
-            )
-            scale(0.72);
-
-        opacity: 0.25;
-    }
-
-
-    .mail-card.next {
-
-        transform:
-            translate(
-                calc(-50% + 245px),
-                -50%
-            )
-            scale(0.72);
-
-        opacity: 0.25;
-    }
-
-
-    .mail-card-icon {
-
-        width: 48px;
-        height: 48px;
-
-        margin-bottom: 20px;
-
-        font-size: 22px;
-    }
-
-
-    .mail-card.active
-    .mail-card-icon {
-
-        width: 55px;
-        height: 55px;
-
-        font-size: 26px;
-    }
-
-
-    .mail-card-title {
-
-        font-size: 23px;
-    }
-
-
-    .mail-card.active
-    .mail-card-title {
-
-        font-size: 27px;
-    }
-
-
-    .carousel-arrow {
-
-        width: 43px;
-        height: 43px;
-
-        font-size: 15px;
-    }
-
-
-    .carousel-arrow-left {
-
-        left: 5px;
-    }
-
-
-    .carousel-arrow-right {
-
-        right: 5px;
-    }
-
-
-    .subscription-detail-inner {
-
-        padding:
-            42px 24px;
-    }
-
-
-    .detail-items {
-
-        grid-template-columns: 1fr;
-    }
-
-
-    .subscription-ending {
-
-        padding-top: 80px;
-    }
-
-}
-
-
-/* =====================================================
-   SMALL MOBILE
-===================================================== */
-
-@media (max-width: 420px) {
-
-    .subscription-intro h1 {
-
-        font-size: 40px;
-    }
-
-
-    .mail-carousel {
-
-        height: 330px;
-    }
-
-
-    .mail-card {
-
-        width: 220px;
-
-        height: 225px;
-
-        padding: 20px;
-    }
-
-
-    .mail-card.active {
-
-        width: 250px;
-
-        height: 250px;
-    }
-
-
-    .mail-card.previous {
-
-        transform:
-            translate(
-                calc(-50% - 210px),
-                -50%
-            )
-            scale(0.68);
-    }
-
-
-    .mail-card.next {
-
-        transform:
-            translate(
-                calc(-50% + 210px),
-                -50%
-            )
-            scale(0.68);
-    }
-
-
-    .mail-card-title {
-
-        font-size: 20px;
-    }
-
-
-    .mail-card.active
-    .mail-card-title {
-
-        font-size: 23px;
-    }
-
-
-    .subscription-detail {
-
-        padding:
-            0 17px;
-    }
-
-
-    .subscription-detail-inner {
-
-        padding:
-            35px 19px;
-    }
-
+      none !important;
+  }
 }

@@ -43,7 +43,22 @@ function Community() {
     return posts;
   });
 
-  const [joinedClubIds, setJoinedClubIds] = useState(myClubIds);
+const [joinedClubIds, setJoinedClubIds] = useState(() => {
+  try {
+    const saved = localStorage.getItem(
+      "art-mail-joined-clubs"
+    );
+
+    if (saved) {
+      return JSON.parse(saved);
+    }
+  } catch {
+    // Use default clubs.
+  }
+
+  return myClubIds;
+});
+
 
   const myClubs = clubs.filter((club) =>
     joinedClubIds.includes(club.id)
@@ -70,14 +85,29 @@ function Community() {
   };
 
   const handleJoinClub = (clubId) => {
-    setJoinedClubIds((currentIds) => {
-      if (currentIds.includes(clubId)) {
-        return currentIds;
-      }
+  setJoinedClubIds((currentIds) => {
+    if (currentIds.includes(clubId)) {
+      return currentIds;
+    }
 
-      return [...currentIds, clubId];
-    });
-  };
+    const updatedIds = [
+      ...currentIds,
+      clubId,
+    ];
+
+    localStorage.setItem(
+      "art-mail-joined-clubs",
+      JSON.stringify(updatedIds)
+    );
+
+    window.dispatchEvent(
+      new Event("art-mail-profile-update")
+    );
+
+    return updatedIds;
+  });
+};
+
 
   const handlePublishPost = () => {
     const text = postContent.trim();

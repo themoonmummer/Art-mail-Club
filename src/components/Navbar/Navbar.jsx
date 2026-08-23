@@ -26,6 +26,10 @@ function Navbar({ variant = "default" }) {
         </li>
 
         <li>
+          <Link to="/subscription">Subscription</Link>
+        </li>
+
+        <li>
           <Link to="/about">About</Link>
         </li>
 
@@ -34,7 +38,7 @@ function Navbar({ variant = "default" }) {
         </li>
 
         <li>
-          <Link to="/subscription">Subscription</Link>
+          <Link to="/profile">Profile</Link>
         </li>
 
       </ul>

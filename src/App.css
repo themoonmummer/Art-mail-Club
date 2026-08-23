@@ -1,3 +1,142 @@
-/* App.css */
+/* =========================================================
+   ART MAIL CLUB — GLOBAL APP STYLES
+   ========================================================= */
 
-/* Global app styles can go here later if needed. */
+/*
+=========================================================
+GLOBAL APP CONTAINER
+=========================================================
+*/
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+
+/*
+=========================================================
+RESPONSIVE MEDIA DEFAULTS
+=========================================================
+*/
+
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+
+/*
+=========================================================
+ACCESSIBILITY
+=========================================================
+*/
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/*
+=========================================================
+FOCUS STATES
+=========================================================
+*/
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-wood-hover);
+  outline-offset: 3px;
+}
+
+
+/*
+=========================================================
+TEXT SELECTION
+=========================================================
+*/
+
+::selection {
+  background: rgba(132, 96, 68, 0.2);
+  color: var(--color-text);
+}
+
+
+/*
+=========================================================
+SMOOTH RESPONSIVE BEHAVIOR
+=========================================================
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/*
+=========================================================
+TABLET
+=========================================================
+*/
+
+@media (max-width: 1024px) {
+
+  :root {
+    --fs-heading: clamp(38px, 6vw, 48px);
+    --fs-subheading: clamp(20px, 3vw, 24px);
+    --fs-body: 15px;
+  }
+
+}
+
+
+/*
+=========================================================
+MOBILE
+=========================================================
+*/
+
+@media (max-width: 650px) {
+
+  :root {
+    --fs-heading: clamp(32px, 10vw, 42px);
+    --fs-subheading: clamp(19px, 6vw, 24px);
+    --fs-body: 15px;
+    --fs-small: 13px;
+  }
+
+}
+
+
+/*
+=========================================================
+VERY SMALL PHONES
+=========================================================
+*/
+
+@media (max-width: 380px) {
+
+  :root {
+    --fs-heading: 30px;
+    --fs-subheading: 19px;
+    --fs-body: 14px;
+    --fs-small: 12px;
+  }
+
+}

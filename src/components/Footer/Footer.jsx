@@ -31,6 +31,8 @@ function Footer({ variant = "default" }) {
 
           <Link to="/subscription">Mail Club</Link>
 
+          <Link to="/profile">Mail Club</Link>
+
         </nav>
 
 

@@ -249,6 +249,25 @@
     color: #ffd98b;
 }
 
+/* ==================================================
+   PROFILE
+   LIGHT / DEFAULT STYLE FOR NOW
+================================================== */
+
+.navbar-profile {
+    background: transparent;
+
+    box-shadow: none;
+}
+
+.navbar-profile .navbar-logo h2,
+.navbar-profile .navbar-links a {
+    color: var(--color-wood);
+}
+
+.navbar-profile .navbar-links a:hover {
+    color: var(--color-wood-hover);
+}
 
 /* ==================================================
    MOBILE
