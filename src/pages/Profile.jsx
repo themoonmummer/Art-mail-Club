@@ -5,6 +5,11 @@ import "../components/Profile/Profile.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 
+import {
+  signupUser,
+  loginUser,
+} from "../utils/api";
+
 import { clubs } from "../data/communityData";
 
 const PROFILE_NAV_ITEMS = [
@@ -60,7 +65,8 @@ const DEFAULT_ACCOUNT = {
 
 function getSavedAccount() {
   try {
-    const savedAccount = localStorage.getItem("artMailProfile");
+    const savedAccount =
+      localStorage.getItem("artMailProfile");
 
     if (!savedAccount) {
       return null;
@@ -81,7 +87,9 @@ function getSavedAccount() {
 
 function getJoinedClubIds() {
   try {
-    const saved = localStorage.getItem("art-mail-joined-clubs");
+    const saved = localStorage.getItem(
+      "art-mail-joined-clubs"
+    );
 
     if (!saved) {
       return [];
@@ -97,10 +105,15 @@ function getJoinedThemes() {
   const joinedClubIds = getJoinedClubIds();
 
   return clubs
-    .filter((club) => joinedClubIds.includes(club.id))
+    .filter((club) =>
+      joinedClubIds.includes(club.id)
+    )
     .map((club) => ({
       id: club.id,
-      name: club.name || club.title || "Art Mail Club",
+      name:
+        club.name ||
+        club.title ||
+        "Art Mail Club",
       description:
         club.description ||
         "A little world inside Art Mail Club.",
@@ -113,7 +126,9 @@ function getJoinedThemes() {
 
 function getSavedPurchases() {
   try {
-    const saved = localStorage.getItem("art-mail-purchases");
+    const saved = localStorage.getItem(
+      "art-mail-purchases"
+    );
 
     if (!saved) {
       return [];
@@ -131,7 +146,9 @@ function getSavedPurchases() {
 
 function getSavedPosts() {
   try {
-    const saved = localStorage.getItem("art-mail-posts");
+    const saved = localStorage.getItem(
+      "art-mail-posts"
+    );
 
     if (!saved) {
       return [];
@@ -200,25 +217,50 @@ function getFreshAccount(account) {
 ========================================================= */
 
 function Profile() {
-  const [account, setAccount] = useState(() => {
-    const saved = getSavedAccount();
+ const [account, setAccount] = useState(() => {
+  const token = localStorage.getItem("artMailToken");
+  const saved = getSavedAccount();
 
-    return saved ? getFreshAccount(saved) : null;
-  });
+  if (!token || !saved) {
+    return null;
+  }
+
+  return getFreshAccount(saved);
+});
 
   const [activeSection, setActiveSection] =
     useState("profile");
 
-  const [showWelcome, setShowWelcome] = useState(
-    () => !localStorage.getItem("artMailProfile")
-  );
+const [showWelcome, setShowWelcome] = useState(() => {
+  const token = localStorage.getItem("artMailToken");
+  const profile = localStorage.getItem("artMailProfile");
+
+  return !token || !profile;
+});
 
   const [showAccountForm, setShowAccountForm] =
     useState(false);
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [showLoginForm, setShowLoginForm] =
+    useState(false);
+
+  const [username, setUsername] =
+    useState("");
+
+  const [email, setEmail] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [loginEmail, setLoginEmail] =
+    useState("");
+
+  const [loginPassword, setLoginPassword] =
+    useState("");
+
+  const [loginError, setLoginError] =
+    useState("");
 
   const [laterMessage, setLaterMessage] =
     useState(false);
@@ -236,23 +278,29 @@ function Profile() {
   const [showCreatePost, setShowCreatePost] =
     useState(false);
 
-  const [postTitle, setPostTitle] = useState("");
+  const [postTitle, setPostTitle] =
+    useState("");
+
   const [postDescription, setPostDescription] =
     useState("");
 
-  const [postPrice, setPostPrice] = useState("");
+  const [postPrice, setPostPrice] =
+    useState("");
 
   const [postDetails, setPostDetails] =
     useState("");
 
-  const [postTheme, setPostTheme] = useState("");
+  const [postTheme, setPostTheme] =
+    useState("");
 
-  const [postImage, setPostImage] = useState("");
+  const [postImage, setPostImage] =
+    useState("");
 
   const [postImageName, setPostImageName] =
     useState("");
 
-  const [postError, setPostError] = useState("");
+  const [postError, setPostError] =
+    useState("");
 
   /* =========================================================
      REFRESH PROFILE DATA
@@ -315,43 +363,168 @@ function Profile() {
      CREATE ACCOUNT
   ========================================================= */
 
-  const handleCreateAccount = (event) => {
+  const handleCreateAccount = async (event) => {
     event.preventDefault();
 
-    if (!username.trim()) return;
-    if (!email.trim()) return;
-    if (!password.trim()) return;
+    if (!username.trim()) {
+      return;
+    }
 
-    const newAccount = {
-      ...DEFAULT_ACCOUNT,
+    if (!email.trim()) {
+      return;
+    }
 
-      username: username.trim(),
+    if (!password.trim()) {
+      return;
+    }
 
-      email: email.trim(),
+    try {
+      const data = await signupUser({
+        username: username.trim(),
+        email: email.trim(),
+        password,
+      });
 
-      password,
+      /* Save authentication token */
 
-      joinedThemes: getJoinedThemes(),
+      localStorage.setItem(
+        "artMailToken",
+        data.token
+      );
 
-      purchases: getSavedPurchases(),
+      /* Create local profile */
 
-      posts: getSavedPosts(),
+      const newAccount = {
+        ...DEFAULT_ACCOUNT,
+        username: data.user.username,
+        email: data.user.email,
+        joinedThemes: getJoinedThemes(),
+        purchases: getSavedPurchases(),
+        posts: getSavedPosts(),
+        subscription:
+          getSavedSubscription(),
+      };
 
-      subscription: getSavedSubscription(),
-    };
+      localStorage.setItem(
+        "artMailProfile",
+        JSON.stringify(newAccount)
+      );
 
-    localStorage.setItem(
-      "artMailProfile",
-      JSON.stringify(newAccount)
-    );
+      setAccount(newAccount);
 
-    setAccount(newAccount);
+      /* Clear signup form */
 
-    setShowWelcome(false);
-    setShowAccountForm(false);
-    setLaterMessage(false);
+      setUsername("");
+      setEmail("");
+      setPassword("");
 
-    setActiveSection("profile");
+      /* Close modals */
+
+      setShowWelcome(false);
+      setShowAccountForm(false);
+      setShowLoginForm(false);
+      setLaterMessage(false);
+
+      setActiveSection("profile");
+
+      window.dispatchEvent(
+        new Event("art-mail-profile-update")
+      );
+    } catch (error) {
+      console.error(
+        "Account creation failed:",
+        error
+      );
+
+      alert(
+        error.message ||
+          "Could not create your account."
+      );
+    }
+  };
+
+  /* =========================================================
+     LOGIN
+  ========================================================= */
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    setLoginError("");
+
+    if (
+      !loginEmail.trim() ||
+      !loginPassword.trim()
+    ) {
+      setLoginError(
+        "Please enter your email and password."
+      );
+
+      return;
+    }
+
+    try {
+      const data = await loginUser({
+        email: loginEmail.trim(),
+        password: loginPassword,
+      });
+
+      /* Save authentication token */
+
+      localStorage.setItem(
+        "artMailToken",
+        data.token
+      );
+
+      /* Create local profile */
+
+      const loggedInAccount = {
+        ...DEFAULT_ACCOUNT,
+        username: data.user.username,
+        email: data.user.email,
+        joinedThemes: getJoinedThemes(),
+        purchases: getSavedPurchases(),
+        posts: getSavedPosts(),
+        subscription:
+          getSavedSubscription(),
+      };
+
+      localStorage.setItem(
+        "artMailProfile",
+        JSON.stringify(loggedInAccount)
+      );
+
+      setAccount(loggedInAccount);
+
+      /* Clear login form */
+
+      setLoginEmail("");
+      setLoginPassword("");
+      setLoginError("");
+
+      /* Close modals */
+
+      setShowLoginForm(false);
+      setShowWelcome(false);
+      setShowAccountForm(false);
+      setLaterMessage(false);
+
+      setActiveSection("profile");
+
+      window.dispatchEvent(
+        new Event("art-mail-profile-update")
+      );
+    } catch (error) {
+      console.error(
+        "Login failed:",
+        error
+      );
+
+      setLoginError(
+        error.message ||
+          "Could not log in."
+      );
+    }
   };
 
   /* =========================================================
@@ -361,6 +534,7 @@ function Profile() {
   const handleLater = () => {
     setShowWelcome(false);
     setShowAccountForm(false);
+    setShowLoginForm(false);
     setLaterMessage(true);
   };
 
@@ -370,7 +544,20 @@ function Profile() {
 
   const handleOpenAccountForm = () => {
     setLaterMessage(false);
+    setShowLoginForm(false);
+    setLoginError("");
     setShowAccountForm(true);
+  };
+
+  /* =========================================================
+     OPEN LOGIN FORM
+  ========================================================= */
+
+  const handleOpenLoginForm = () => {
+    setLaterMessage(false);
+    setShowAccountForm(false);
+    setLoginError("");
+    setShowLoginForm(true);
   };
 
   /* =========================================================
@@ -380,6 +567,8 @@ function Profile() {
   const handleCloseWelcome = () => {
     setShowWelcome(false);
     setShowAccountForm(false);
+    setShowLoginForm(false);
+    setLoginError("");
   };
 
   /* =========================================================
@@ -387,7 +576,9 @@ function Profile() {
   ========================================================= */
 
   const handleOpenSettings = () => {
-    if (!account) return;
+    if (!account) {
+      return;
+    }
 
     setSettingsUsername(account.username);
     setSettingsEmail(account.email);
@@ -402,16 +593,21 @@ function Profile() {
   const handleSaveSettings = (event) => {
     event.preventDefault();
 
-    if (!account) return;
+    if (!account) {
+      return;
+    }
 
-    if (!settingsUsername.trim()) return;
-    if (!settingsEmail.trim()) return;
+    if (!settingsUsername.trim()) {
+      return;
+    }
+
+    if (!settingsEmail.trim()) {
+      return;
+    }
 
     const updatedAccount = {
       ...account,
-
       username: settingsUsername.trim(),
-
       email: settingsEmail.trim(),
     };
 
@@ -430,35 +626,46 @@ function Profile() {
   /* =========================================================
      LOGOUT
   ========================================================= */
+const handleLogout = () => {
+  // Remove authentication data
+  localStorage.removeItem("artMailToken");
+  localStorage.removeItem("artMailProfile");
 
-  const handleLogout = () => {
-    localStorage.removeItem("artMailProfile");
+  // Clear account from React state
+  setAccount(null);
 
-    setAccount(null);
+  // Reset UI
+  setShowWelcome(false);
+  setShowAccountForm(false);
+  setShowLoginForm(false);
+  setLaterMessage(false);
 
-    setShowWelcome(true);
-    setShowAccountForm(false);
-    setLaterMessage(false);
-  };
+  setLoginEmail("");
+  setLoginPassword("");
+  setLoginError("");
+
+  setActiveSection("profile");
+};
 
   /* =========================================================
      IMAGE UPLOAD
   ========================================================= */
 
   const handlePostImageChange = (event) => {
-    const file = event.target.files?.[0];
+    const file =
+      event.target.files?.[0];
 
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      setPostError("Please choose an image file.");
+    if (!file) {
       return;
     }
 
-    /*
-      Images are stored as data URLs so the post remains
-      visible after refreshing the page.
-    */
+    if (!file.type.startsWith("image/")) {
+      setPostError(
+        "Please choose an image file."
+      );
+
+      return;
+    }
 
     const reader = new FileReader();
 
@@ -469,7 +676,9 @@ function Profile() {
     };
 
     reader.onerror = () => {
-      setPostError("Something went wrong while uploading the image.");
+      setPostError(
+        "Something went wrong while uploading the image."
+      );
     };
 
     reader.readAsDataURL(file);
@@ -500,32 +709,57 @@ function Profile() {
     setPostError("");
 
     if (!postImage) {
-      setPostError("Please upload an image for your post.");
+      setPostError(
+        "Please upload an image for your post."
+      );
+
       return;
     }
 
     if (!postTitle.trim()) {
-      setPostError("Please add a title.");
+      setPostError(
+        "Please add a title."
+      );
+
       return;
     }
 
     if (!postDescription.trim()) {
-      setPostError("Please add some details about your product.");
+      setPostError(
+        "Please add some details about your product."
+      );
+
       return;
     }
 
     if (!postPrice.trim()) {
-      setPostError("Please add a price.");
+      setPostError(
+        "Please add a price."
+      );
+
       return;
     }
 
     if (!postTheme) {
-      setPostError("Please connect your post to a theme.");
+      setPostError(
+        "Please connect your post to a theme."
+      );
+
+      return;
+    }
+
+    if (!account) {
+      setPostError(
+        "You need to be logged in to create a post."
+      );
+
       return;
     }
 
     const selectedTheme = clubs.find(
-      (club) => String(club.id) === String(postTheme)
+      (club) =>
+        String(club.id) ===
+        String(postTheme)
     );
 
     const newPost = {
@@ -533,7 +767,8 @@ function Profile() {
 
       title: postTitle.trim(),
 
-      description: postDescription.trim(),
+      description:
+        postDescription.trim(),
 
       price: postPrice.trim(),
 
@@ -547,7 +782,9 @@ function Profile() {
 
       userEmail: account.email,
 
-      themeId: selectedTheme?.id || postTheme,
+      themeId:
+        selectedTheme?.id ||
+        postTheme,
 
       themeName:
         selectedTheme?.name ||
@@ -566,7 +803,8 @@ function Profile() {
       createdAt: Date.now(),
     };
 
-    const existingPosts = getSavedPosts();
+    const existingPosts =
+      getSavedPosts();
 
     const updatedPosts = [
       newPost,
@@ -576,7 +814,9 @@ function Profile() {
     savePosts(updatedPosts);
 
     setAccount((previous) => {
-      if (!previous) return previous;
+      if (!previous) {
+        return previous;
+      }
 
       return {
         ...previous,
@@ -596,20 +836,26 @@ function Profile() {
   ========================================================= */
 
   const handleDeletePost = (postId) => {
-    const confirmed = window.confirm(
-      "Remove this post from your profile?"
-    );
+    const confirmed =
+      window.confirm(
+        "Remove this post from your profile?"
+      );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
 
-    const updatedPosts = getSavedPosts().filter(
-      (post) => post.id !== postId
-    );
+    const updatedPosts =
+      getSavedPosts().filter(
+        (post) => post.id !== postId
+      );
 
     savePosts(updatedPosts);
 
     setAccount((previous) => {
-      if (!previous) return previous;
+      if (!previous) {
+        return previous;
+      }
 
       return {
         ...previous,
@@ -639,8 +885,9 @@ function Profile() {
           </h1>
 
           <p>
-            Everything connected to your Art Mail Club
-            experience, gathered in one place.
+            Everything connected to your
+            Art Mail Club experience,
+            gathered in one place.
           </p>
 
         </div>
@@ -657,9 +904,13 @@ function Profile() {
               MEMBER
             </span>
 
-            <h2>{account.username}</h2>
+            <h2>
+              {account.username}
+            </h2>
 
-            <p>{account.email}</p>
+            <p>
+              {account.email}
+            </p>
 
           </div>
 
@@ -723,19 +974,23 @@ function Profile() {
           </div>
 
           <div>
+
             <span className="profile-card-label">
               SHARE SOMETHING
             </span>
 
             <h3>
-              Have something beautiful to share?
+              Have something beautiful
+              to share?
             </h3>
 
             <p>
-              Create a post, add your product details,
-              choose a community theme, and let it find
-              its people.
+              Create a post, add your
+              product details, choose a
+              community theme, and let it
+              find its people.
             </p>
+
           </div>
 
           <button
@@ -765,9 +1020,10 @@ function Profile() {
             </span>
 
             <p>
-              Your profile is where your Art Mail Club
-              journey starts. Join a theme, create
-              something to share, or simply explore.
+              Your profile is where your
+              Art Mail Club journey starts.
+              Join a theme, create something
+              to share, or simply explore.
             </p>
 
           </div>
@@ -789,6 +1045,7 @@ function Profile() {
         <div className="profile-section-intro profile-posts-heading">
 
           <div>
+
             <span className="profile-section-kicker">
               Your creations
             </span>
@@ -798,9 +1055,11 @@ function Profile() {
             </h1>
 
             <p>
-              Products and things you've shared with
-              the Art Mail community.
+              Products and things you've
+              shared with the Art Mail
+              community.
             </p>
+
           </div>
 
           <button
@@ -836,9 +1095,10 @@ function Profile() {
             </h2>
 
             <p>
-              Upload an image, tell people about your
-              product, add the price, and connect it to
-              a community theme.
+              Upload an image, tell people
+              about your product, add the
+              price, and connect it to a
+              community theme.
             </p>
 
             <button
@@ -925,7 +1185,9 @@ function Profile() {
                     <button
                       type="button"
                       onClick={() =>
-                        handleDeletePost(post.id)
+                        handleDeletePost(
+                          post.id
+                        )
                       }
                     >
                       Remove
@@ -966,8 +1228,8 @@ function Profile() {
           </h1>
 
           <p>
-            The worlds and themes you've chosen to
-            become part of.
+            The worlds and themes you've
+            chosen to become part of.
           </p>
 
         </div>
@@ -991,9 +1253,10 @@ function Profile() {
             </h2>
 
             <p>
-              You haven't joined a community club yet.
-              Explore Community and when you find one
-              that feels like yours, it'll appear here.
+              You haven't joined a community
+              club yet. Explore Community and
+              when you find one that feels
+              like yours, it'll appear here.
             </p>
 
           </div>
@@ -1002,32 +1265,34 @@ function Profile() {
 
           <div className="profile-theme-list">
 
-            {account.joinedThemes.map((theme) => (
+            {account.joinedThemes.map(
+              (theme) => (
 
-              <article
-                className="profile-theme-card"
-                key={theme.id}
-              >
+                <article
+                  className="profile-theme-card"
+                  key={theme.id}
+                >
 
-                <span>
-                  THEME
-                </span>
+                  <span>
+                    THEME
+                  </span>
 
-                <h2>
-                  {theme.name}
-                </h2>
+                  <h2>
+                    {theme.name}
+                  </h2>
 
-                <p>
-                  {theme.description}
-                </p>
+                  <p>
+                    {theme.description}
+                  </p>
 
-                <strong>
-                  →
-                </strong>
+                  <strong>
+                    →
+                  </strong>
 
-              </article>
+                </article>
 
-            ))}
+              )
+            )}
 
           </div>
 
@@ -1056,8 +1321,8 @@ function Profile() {
           </h1>
 
           <p>
-            Keep track of the subscription connected
-            to your account.
+            Keep track of the subscription
+            connected to your account.
           </p>
 
         </div>
@@ -1103,8 +1368,8 @@ function Profile() {
             </h2>
 
             <p>
-              Visit Subscription to choose your
-              correspondence experience.
+              Visit Subscription to choose
+              your correspondence experience.
             </p>
 
           </div>
@@ -1134,8 +1399,8 @@ function Profile() {
           </h1>
 
           <p>
-            A record of the purchases you've made
-            through Art Mail Club.
+            A record of the purchases you've
+            made through Art Mail Club.
           </p>
 
         </div>
@@ -1159,8 +1424,9 @@ function Profile() {
             </h2>
 
             <p>
-              When you purchase a mailer or subscription,
-              it will appear here.
+              When you purchase a mailer
+              or subscription, it will
+              appear here.
             </p>
 
           </div>
@@ -1174,11 +1440,16 @@ function Profile() {
 
                 <article
                   className="profile-history-item"
-                  key={purchase.id || index}
+                  key={
+                    purchase.id ||
+                    index
+                  }
                 >
 
                   <div className="profile-history-number">
-                    {String(index + 1).padStart(2, "0")}
+                    {String(
+                      index + 1
+                    ).padStart(2, "0")}
                   </div>
 
                   <div>
@@ -1196,7 +1467,8 @@ function Profile() {
                   </div>
 
                   <strong>
-                    {purchase.price || "—"}
+                    {purchase.price ||
+                      "—"}
                   </strong>
 
                 </article>
@@ -1231,8 +1503,8 @@ function Profile() {
           </h1>
 
           <p>
-            Change the details connected to your
-            Art Mail Club account.
+            Change the details connected
+            to your Art Mail Club account.
           </p>
 
         </div>
@@ -1289,8 +1561,9 @@ function Profile() {
             </span>
 
             <p>
-              Password changes can be connected to
-              your authentication system later.
+              Password changes can be
+              connected to your authentication
+              system later.
             </p>
 
           </div>
@@ -1366,7 +1639,9 @@ function Profile() {
 
         <div className="profile-dashboard">
 
-          {/* SIDEBAR */}
+          {/* =================================================
+              SIDEBAR
+          ================================================= */}
 
           <aside className="profile-sidebar">
 
@@ -1386,44 +1661,53 @@ function Profile() {
 
             <nav className="profile-navigation">
 
-              {PROFILE_NAV_ITEMS.map((item) => (
+              {PROFILE_NAV_ITEMS.map(
+                (item) => (
 
-                <button
-                  type="button"
-                  key={item.id}
-                  className={
-                    activeSection === item.id
-                      ? "profile-nav-item profile-nav-item-active"
-                      : "profile-nav-item"
-                  }
-                  onClick={() => {
-
-                    if (item.id === "settings") {
-                      handleOpenSettings();
-                    } else {
-                      setActiveSection(item.id);
+                  <button
+                    type="button"
+                    key={item.id}
+                    className={
+                      activeSection ===
+                      item.id
+                        ? "profile-nav-item profile-nav-item-active"
+                        : "profile-nav-item"
                     }
+                    onClick={() => {
 
-                  }}
-                >
+                      if (
+                        item.id ===
+                        "settings"
+                      ) {
+                        handleOpenSettings();
+                      } else {
+                        setActiveSection(
+                          item.id
+                        );
+                      }
 
-                  <span className="profile-nav-icon">
-                    {item.icon}
-                  </span>
+                    }}
+                  >
 
-                  <span>
-                    {item.label}
-                  </span>
-
-                  {activeSection === item.id && (
-                    <span className="profile-nav-arrow">
-                      →
+                    <span className="profile-nav-icon">
+                      {item.icon}
                     </span>
-                  )}
 
-                </button>
+                    <span>
+                      {item.label}
+                    </span>
 
-              ))}
+                    {activeSection ===
+                      item.id && (
+                      <span className="profile-nav-arrow">
+                        →
+                      </span>
+                    )}
+
+                  </button>
+
+                )
+              )}
 
             </nav>
 
@@ -1439,7 +1723,9 @@ function Profile() {
 
           </aside>
 
-          {/* CONTENT */}
+          {/* =================================================
+              CONTENT
+          ================================================= */}
 
           <div className="profile-dashboard-content">
 
@@ -1491,9 +1777,10 @@ function Profile() {
                   </h1>
 
                   <p>
-                    Do explore more around Art Mail Club.
-                    When you're ready to create your
-                    little mailbox, we'll be right here.
+                    Do explore more around
+                    Art Mail Club. When you're
+                    ready to create your little
+                    mailbox, we'll be right here.
                   </p>
 
                   <button
@@ -1519,283 +1806,296 @@ function Profile() {
             CREATE POST MODAL
         ===================================================== */}
 
-        {showCreatePost && account && (
-
-          <div
-            className="profile-modal-backdrop"
-            role="presentation"
-          >
+        {showCreatePost &&
+          account && (
 
             <div
-              className="profile-create-post-modal"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="create-post-title"
+              className="profile-modal-backdrop"
+              role="presentation"
             >
 
-              <button
-                type="button"
-                className="profile-modal-close"
-                onClick={() => {
-                  setShowCreatePost(false);
-                  resetPostForm();
-                }}
-                aria-label="Close"
-              >
-                ×
-              </button>
-
-              <div className="profile-create-post-header">
-
-                <span className="profile-section-kicker">
-                  Share with the community
-                </span>
-
-                <h2 id="create-post-title">
-                  Create a Post.
-                </h2>
-
-                <p>
-                  Add your image, tell people about
-                  your product, set the price, and
-                  connect it to a community theme.
-                </p>
-
-              </div>
-
-              <form
-                className="profile-create-post-form"
-                onSubmit={handleCreatePost}
+              <div
+                className="profile-create-post-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="create-post-title"
               >
 
-                {/* IMAGE */}
+                <button
+                  type="button"
+                  className="profile-modal-close"
+                  onClick={() => {
+                    setShowCreatePost(
+                      false
+                    );
 
-                <div className="profile-upload-section">
+                    resetPostForm();
+                  }}
+                  aria-label="Close"
+                >
+                  ×
+                </button>
 
-                  <label className="profile-upload-box">
+                <div className="profile-create-post-header">
 
-                    {postImage ? (
+                  <span className="profile-section-kicker">
+                    Share with the community
+                  </span>
 
-                      <img
-                        src={postImage}
-                        alt="Post preview"
-                        className="profile-upload-preview"
+                  <h2 id="create-post-title">
+                    Create a Post.
+                  </h2>
+
+                  <p>
+                    Add your image, tell people
+                    about your product, set the
+                    price, and connect it to a
+                    community theme.
+                  </p>
+
+                </div>
+
+                <form
+                  className="profile-create-post-form"
+                  onSubmit={handleCreatePost}
+                >
+
+                  {/* IMAGE */}
+
+                  <div className="profile-upload-section">
+
+                    <label className="profile-upload-box">
+
+                      {postImage ? (
+
+                        <img
+                          src={postImage}
+                          alt="Post preview"
+                          className="profile-upload-preview"
+                        />
+
+                      ) : (
+
+                        <div className="profile-upload-placeholder">
+
+                          <span>
+                            +
+                          </span>
+
+                          <strong>
+                            Upload Image
+                          </strong>
+
+                          <small>
+                            Choose an image
+                            from your device
+                          </small>
+
+                        </div>
+
+                      )}
+
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={
+                          handlePostImageChange
+                        }
                       />
 
-                    ) : (
+                    </label>
 
-                      <div className="profile-upload-placeholder">
-
-                        <span>
-                          +
-                        </span>
-
-                        <strong>
-                          Upload Image
-                        </strong>
-
-                        <small>
-                          Choose an image from your device
-                        </small>
-
-                      </div>
-
+                    {postImageName && (
+                      <span className="profile-upload-name">
+                        {postImageName}
+                      </span>
                     )}
 
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePostImageChange}
-                    />
+                  </div>
 
-                  </label>
-
-                  {postImageName && (
-                    <span className="profile-upload-name">
-                      {postImageName}
-                    </span>
-                  )}
-
-                </div>
-
-                {/* TITLE */}
-
-                <div className="profile-post-form-field">
-
-                  <label htmlFor="post-title">
-                    Product / Post Title
-                  </label>
-
-                  <input
-                    id="post-title"
-                    type="text"
-                    value={postTitle}
-                    onChange={(event) =>
-                      setPostTitle(
-                        event.target.value
-                      )
-                    }
-                    placeholder="e.g. Hand-painted postcard set"
-                  />
-
-                </div>
-
-                {/* DESCRIPTION */}
-
-                <div className="profile-post-form-field">
-
-                  <label htmlFor="post-description">
-                    About this product
-                  </label>
-
-                  <textarea
-                    id="post-description"
-                    value={postDescription}
-                    onChange={(event) =>
-                      setPostDescription(
-                        event.target.value
-                      )
-                    }
-                    placeholder="Tell the community what makes this special..."
-                    rows="4"
-                  />
-
-                </div>
-
-                {/* PRICE + THEME */}
-
-                <div className="profile-post-form-row">
+                  {/* TITLE */}
 
                   <div className="profile-post-form-field">
 
-                    <label htmlFor="post-price">
-                      Price
+                    <label htmlFor="post-title">
+                      Product / Post Title
                     </label>
 
-                    <div className="profile-price-input">
+                    <input
+                      id="post-title"
+                      type="text"
+                      value={postTitle}
+                      onChange={(event) =>
+                        setPostTitle(
+                          event.target.value
+                        )
+                      }
+                      placeholder="e.g. Hand-painted postcard set"
+                    />
 
-                      <span>
-                        ₹
-                      </span>
+                  </div>
 
-                      <input
-                        id="post-price"
-                        type="text"
-                        value={postPrice}
+                  {/* DESCRIPTION */}
+
+                  <div className="profile-post-form-field">
+
+                    <label htmlFor="post-description">
+                      About this product
+                    </label>
+
+                    <textarea
+                      id="post-description"
+                      value={postDescription}
+                      onChange={(event) =>
+                        setPostDescription(
+                          event.target.value
+                        )
+                      }
+                      placeholder="Tell the community what makes this special..."
+                      rows="4"
+                    />
+
+                  </div>
+
+                  {/* PRICE + THEME */}
+
+                  <div className="profile-post-form-row">
+
+                    <div className="profile-post-form-field">
+
+                      <label htmlFor="post-price">
+                        Price
+                      </label>
+
+                      <div className="profile-price-input">
+
+                        <span>
+                          ₹
+                        </span>
+
+                        <input
+                          id="post-price"
+                          type="text"
+                          value={postPrice}
+                          onChange={(event) =>
+                            setPostPrice(
+                              event.target.value
+                            )
+                          }
+                          placeholder="500"
+                        />
+
+                      </div>
+
+                    </div>
+
+                    <div className="profile-post-form-field">
+
+                      <label htmlFor="post-theme">
+                        Community Theme
+                      </label>
+
+                      <select
+                        id="post-theme"
+                        value={postTheme}
                         onChange={(event) =>
-                          setPostPrice(
+                          setPostTheme(
                             event.target.value
                           )
                         }
-                        placeholder="500"
-                      />
+                      >
+
+                        <option value="">
+                          Choose a theme
+                        </option>
+
+                        {clubs.map(
+                          (club) => (
+
+                            <option
+                              key={club.id}
+                              value={club.id}
+                            >
+                              {club.name ||
+                                club.title ||
+                                "Art Mail Club"}
+                            </option>
+
+                          )
+                        )}
+
+                      </select>
 
                     </div>
 
                   </div>
 
+                  {/* DETAILS */}
+
                   <div className="profile-post-form-field">
 
-                    <label htmlFor="post-theme">
-                      Community Theme
+                    <label htmlFor="post-details">
+                      Product Details
+                      <span>
+                        Optional
+                      </span>
                     </label>
 
-                    <select
-                      id="post-theme"
-                      value={postTheme}
+                    <textarea
+                      id="post-details"
+                      value={postDetails}
                       onChange={(event) =>
-                        setPostTheme(
+                        setPostDetails(
                           event.target.value
                         )
                       }
+                      placeholder="Materials, size, quantity, shipping information, etc."
+                      rows="4"
+                    />
+
+                  </div>
+
+                  {postError && (
+
+                    <div className="profile-post-error">
+                      {postError}
+                    </div>
+
+                  )}
+
+                  <div className="profile-create-post-actions">
+
+                    <button
+                      type="button"
+                      className="profile-secondary-button"
+                      onClick={() => {
+                        setShowCreatePost(
+                          false
+                        );
+
+                        resetPostForm();
+                      }}
                     >
+                      Cancel
+                    </button>
 
-                      <option value="">
-                        Choose a theme
-                      </option>
-
-                      {clubs.map((club) => (
-
-                        <option
-                          key={club.id}
-                          value={club.id}
-                        >
-                          {club.name ||
-                            club.title ||
-                            "Art Mail Club"}
-                        </option>
-
-                      ))}
-
-                    </select>
+                    <button
+                      type="submit"
+                      className="profile-primary-button"
+                    >
+                      Post It
+                      <span>→</span>
+                    </button>
 
                   </div>
 
-                </div>
+                </form>
 
-                {/* DETAILS */}
-
-                <div className="profile-post-form-field">
-
-                  <label htmlFor="post-details">
-                    Product Details
-                    <span>
-                      Optional
-                    </span>
-                  </label>
-
-                  <textarea
-                    id="post-details"
-                    value={postDetails}
-                    onChange={(event) =>
-                      setPostDetails(
-                        event.target.value
-                      )
-                    }
-                    placeholder="Materials, size, quantity, shipping information, etc."
-                    rows="4"
-                  />
-
-                </div>
-
-                {postError && (
-
-                  <div className="profile-post-error">
-                    {postError}
-                  </div>
-
-                )}
-
-                <div className="profile-create-post-actions">
-
-                  <button
-                    type="button"
-                    className="profile-secondary-button"
-                    onClick={() => {
-                      setShowCreatePost(false);
-                      resetPostForm();
-                    }}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="submit"
-                    className="profile-primary-button"
-                  >
-                    Post It
-                    <span>→</span>
-                  </button>
-
-                </div>
-
-              </form>
+              </div>
 
             </div>
 
-          </div>
-
-        )}
+          )}
 
         {/* =====================================================
             WELCOME MODAL
@@ -1818,7 +2118,9 @@ function Profile() {
               <button
                 type="button"
                 className="profile-modal-close"
-                onClick={handleCloseWelcome}
+                onClick={
+                  handleCloseWelcome
+                }
                 aria-label="Close"
               >
                 ×
@@ -1828,54 +2130,78 @@ function Profile() {
                 ✦
               </div>
 
-              {!showAccountForm ? (
+              {/* =================================================
+                  WELCOME CHOICE
+              ================================================= */}
 
-                <>
+              {!showAccountForm &&
+                !showLoginForm && (
 
-                  <span className="profile-section-kicker">
-                    Welcome to Art Mail Club
-                  </span>
+                  <>
 
-                  <h2 id="profile-welcome-title">
-                    Your little mailbox
-                    <br />
-                    starts here.
-                  </h2>
+                    <span className="profile-section-kicker">
+                      Welcome to Art Mail Club
+                    </span>
 
-                  <p>
-                    Create your own Art Mail Club profile
-                    to keep track of your themes,
-                    subscriptions, purchases, posts,
-                    and everything that finds its way
-                    into your mailbox.
-                  </p>
+                    <h2 id="profile-welcome-title">
+                      Your little mailbox
+                      <br />
+                      starts here.
+                    </h2>
 
-                  <div className="profile-welcome-actions">
+                    <p>
+                      Create your own Art Mail
+                      Club profile to keep track
+                      of your themes, subscriptions,
+                      purchases, posts, and
+                      everything that finds its way
+                      into your mailbox.
+                    </p>
 
-                    <button
-                      type="button"
-                      className="profile-primary-button"
-                      onClick={
-                        handleOpenAccountForm
-                      }
-                    >
-                      Create Your Account
-                      <span>→</span>
-                    </button>
+                    <div className="profile-welcome-actions">
 
-                    <button
-                      type="button"
-                      className="profile-secondary-button"
-                      onClick={handleLater}
-                    >
-                      Maybe Later
-                    </button>
+                      <button
+                        type="button"
+                        className="profile-primary-button"
+                        onClick={
+                          handleOpenAccountForm
+                        }
+                      >
+                        Create Your Account
+                        <span>→</span>
+                      </button>
 
-                  </div>
+                      <button
+                        type="button"
+                        className="profile-secondary-button"
+                        onClick={
+                          handleOpenLoginForm
+                        }
+                      >
+                        Log In
+                      </button>
 
-                </>
+                      <button
+                        type="button"
+                        className="profile-secondary-button"
+                        onClick={
+                          handleLater
+                        }
+                      >
+                        Maybe Later
+                      </button>
 
-              ) : (
+                    </div>
+
+                  </>
+
+                )}
+
+              {/* =================================================
+                  CREATE ACCOUNT FORM
+              ================================================= */}
+
+              {showAccountForm && (
 
                 <>
 
@@ -1888,13 +2214,16 @@ function Profile() {
                   </h2>
 
                   <p>
-                    Just a few details and your personal
-                    Art Mail Club space is ready.
+                    Just a few details and your
+                    personal Art Mail Club space
+                    is ready.
                   </p>
 
                   <form
                     className="profile-account-form"
-                    onSubmit={handleCreateAccount}
+                    onSubmit={
+                      handleCreateAccount
+                    }
                   >
 
                     <div className="profile-form-field">
@@ -1972,6 +2301,119 @@ function Profile() {
                     </button>
 
                   </form>
+
+                  <button
+                    type="button"
+                    className="profile-secondary-button"
+                    onClick={
+                      handleOpenLoginForm
+                    }
+                  >
+                    Already have an account? Log In
+                  </button>
+
+                </>
+
+              )}
+
+              {/* =================================================
+                  LOGIN FORM
+              ================================================= */}
+
+              {showLoginForm && (
+
+                <>
+
+                  <span className="profile-section-kicker">
+                    Welcome back
+                  </span>
+
+                  <h2 id="profile-welcome-title">
+                    Log in to your mailbox.
+                  </h2>
+
+                  <p>
+                    Enter your account details
+                    to continue your Art Mail
+                    Club journey.
+                  </p>
+
+                  <form
+                    className="profile-account-form"
+                    onSubmit={handleLogin}
+                  >
+
+                    <div className="profile-form-field">
+
+                      <label htmlFor="profile-login-email">
+                        Email
+                      </label>
+
+                      <input
+                        id="profile-login-email"
+                        type="email"
+                        value={loginEmail}
+                        onChange={(event) =>
+                          setLoginEmail(
+                            event.target.value
+                          )
+                        }
+                        placeholder="you@example.com"
+                        autoComplete="email"
+                        required
+                      />
+
+                    </div>
+
+                    <div className="profile-form-field">
+
+                      <label htmlFor="profile-login-password">
+                        Password
+                      </label>
+
+                      <input
+                        id="profile-login-password"
+                        type="password"
+                        value={loginPassword}
+                        onChange={(event) =>
+                          setLoginPassword(
+                            event.target.value
+                          )
+                        }
+                        placeholder="Your password"
+                        autoComplete="current-password"
+                        required
+                      />
+
+                    </div>
+
+                    {loginError && (
+
+                      <div className="profile-post-error">
+                        {loginError}
+                      </div>
+
+                    )}
+
+                    <button
+                      type="submit"
+                      className="profile-primary-button profile-create-button"
+                    >
+                      Log In
+                      <span>→</span>
+                    </button>
+
+                  </form>
+
+                  <button
+                    type="button"
+                    className="profile-secondary-button"
+                    onClick={
+                      handleOpenAccountForm
+                    }
+                  >
+                    Need an account? Create One
+                  </button>
 
                 </>
 

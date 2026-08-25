@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Gallery from "../pages/Gallery";
 import About from "../pages/About";
-import Community from "../Pages/Community";
-import Contact from "../Pages/Contact";
+import Community from "../pages/Community";
+import Contact from "../pages/Contact";
 import Home from "../pages/Home";
 import Subscription from "../pages/Subscription";
 import Profile from "../pages/Profile";

@@ -1,10 +1,38 @@
 import "../components/Contact/Contact.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
+import { submitContact } from "../utils/api";
 
 import bg3 from "../assets/images/other/bg3.jpeg";
 
 function Contact() {
+    const handleContactSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+
+
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const message = formData.get("message");
+
+    try {
+      const response = await submitContact({
+        name,
+        email,
+        message,
+      });
+
+      alert(response.message);
+      form.reset();
+
+    } catch (error) {
+      console.error("Contact form failed:", error);
+      alert("Could not send your message. Please try again.");
+    }
+  };
+
   return (
     <>
       <Navbar variant="contact" />
@@ -51,7 +79,10 @@ function Contact() {
               envelope at a time.
             </p>
 
-            <form className="contact-form">
+           <form
+  className="contact-form"
+  onSubmit={handleContactSubmit}
+>
 
               <input
                 type="text"
