@@ -39,8 +39,12 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: err.message || "Something went wrong." });
 });
+module.exports = app;
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Art Mail Club API running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+
+  app.listen(PORT, () => {
+    console.log(`Art Mail Club API running on http://localhost:${PORT}`);
+  });
+}
