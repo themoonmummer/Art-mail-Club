@@ -1,6 +1,6 @@
 /* ==================================================
    ABOUT
-   ================================================== */
+================================================== */
 
 .about {
     position: relative;
@@ -9,13 +9,6 @@
     max-width: 100%;
     min-width: 0;
 
-    /*
-     * IMPORTANT:
-     * Do NOT give this section a fixed viewport height.
-     *
-     * The image will determine the height of the
-     * entire About section.
-     */
     display: grid;
 
     overflow: hidden;
@@ -26,7 +19,7 @@
 
 /* ==================================================
    BACKGROUND IMAGE
-   ================================================== */
+================================================== */
 
 .about-background {
     grid-area: 1 / 1;
@@ -51,7 +44,7 @@
 
 /* ==================================================
    OVERLAY
-   ================================================== */
+================================================== */
 
 .about-overlay {
     grid-area: 1 / 1;
@@ -70,7 +63,7 @@
 
 /* ==================================================
    CONTENT
-   ================================================== */
+================================================== */
 
 .about-content {
     grid-area: 1 / 1;
@@ -108,7 +101,7 @@
 
 /* ==================================================
    TAG
-   ================================================== */
+================================================== */
 
 .about-tag {
     max-width: 100%;
@@ -129,7 +122,7 @@
 
 /* ==================================================
    HEADING
-   ================================================== */
+================================================== */
 
 .about h1 {
     max-width: 100%;
@@ -152,7 +145,7 @@
 
 /* ==================================================
    PARAGRAPHS
-   ================================================== */
+================================================== */
 
 .about-content p:not(.about-tag) {
     width: 100%;
@@ -175,14 +168,14 @@
 
 /* ==================================================
    TABLET
-   ================================================== */
+================================================== */
 
 @media (max-width: 900px) {
 
     .about-content {
         width: min(700px, 100%);
 
-        padding: 80px 30px;
+        padding: 80px 20px;
     }
 
     .about h1 {
@@ -193,7 +186,7 @@
 
 /* ==================================================
    MOBILE
-   ================================================== */
+================================================== */
 
 @media (max-width: 600px) {
 
@@ -201,37 +194,68 @@
         width: 100%;
         max-width: 100%;
 
-        padding: 60px 18px;
+        /*
+         * Text is intentionally small on the phone
+         * and positioned lower into the artwork.
+         */
+        padding: 190px 30px 45px;
+
+        box-sizing: border-box;
+
+        justify-content: flex-start;
     }
 
     .about-tag {
-        margin-bottom: 15px;
+        width: 100%;
+        max-width: 100%;
 
-        font-size: 11px;
-        letter-spacing: 2.5px;
+        margin: 0 0 7px;
+
+        font-size: 6px;
+
+        line-height: 1.25;
+
+        letter-spacing: 1px;
     }
 
     .about h1 {
-        margin-bottom: 24px;
+        width: 100%;
+        max-width: 250px;
 
-        font-size: clamp(2.1rem, 10vw, 3.2rem);
+        margin: 0 auto 11px;
 
-        line-height: 1.08;
+        font-size: 1.05rem;
+
+        line-height: 1.02;
+
+        font-weight: 600;
+
+        overflow-wrap: normal;
+        word-break: normal;
     }
 
     .about-content p:not(.about-tag) {
-        margin-bottom: 18px;
+        width: 100%;
+        max-width: 250px;
 
-        font-size: 0.97rem;
+        margin: 0 auto 9px;
 
-        line-height: 1.75;
+        font-size: 0.47rem;
+
+        line-height: 1.35;
+
+        font-weight: 400;
+
+        overflow-wrap: break-word;
+
+        word-break: normal;
     }
 }
 
 
 /* ==================================================
    SMALL MOBILE
-   ================================================== */
+================================================== */
 
 @media (max-width: 380px) {
 
@@ -239,22 +263,45 @@
         width: 100%;
         max-width: 100%;
 
-        padding: 45px 14px;
+        /*
+         * Slightly adjusted for very small phones.
+         */
+        padding: 170px 26px 40px;
+    }
+
+    .about-tag {
+        font-size: 5.5px;
+
+        letter-spacing: 0.8px;
+
+        margin-bottom: 6px;
     }
 
     .about h1 {
-        font-size: 2rem;
+        max-width: 230px;
+
+        margin-bottom: 9px;
+
+        font-size: 0.95rem;
+
+        line-height: 1.02;
     }
 
     .about-content p:not(.about-tag) {
-        font-size: 0.9rem;
+        max-width: 230px;
+
+        font-size: 0.43rem;
+
+        line-height: 1.33;
+
+        margin-bottom: 8px;
     }
 }
 
 
 /* ==================================================
    SCROLL INDICATOR
-   ================================================== */
+================================================== */
 
 .scroll-indicator {
     position: fixed;
@@ -268,6 +315,7 @@
     height: 56px;
 
     max-width: calc(100vw - 28px);
+
     flex-shrink: 0;
 
     border: 1px solid rgba(244, 223, 189, 0.85);
@@ -303,7 +351,7 @@
 
 /* ==================================================
    ARROW
-   ================================================== */
+================================================== */
 
 .scroll-indicator span {
     display: block;
@@ -321,7 +369,7 @@
 
 /* ==================================================
    HOVER
-   ================================================== */
+================================================== */
 
 .scroll-indicator:hover {
     transform: translateX(-50%) translateY(-4px);
@@ -332,7 +380,7 @@
 
 /* ==================================================
    HIDE AFTER SCROLL
-   ================================================== */
+================================================== */
 
 .scroll-indicator.hidden {
     opacity: 0;
@@ -345,7 +393,7 @@
 
 /* ==================================================
    ARROW ANIMATION
-   ================================================== */
+================================================== */
 
 @keyframes scrollArrow {
 
@@ -359,40 +407,119 @@
     }
 }
 
-
 /* ==================================================
    MOBILE
-   ================================================== */
+================================================== */
 
 @media (max-width: 600px) {
 
-    .scroll-indicator {
-        width: 48px;
-        height: 48px;
+    .about-content {
+        width: 100%;
+        max-width: 100%;
 
-        bottom: max(18px, env(safe-area-inset-bottom));
+        /*
+         * Move the entire text composition further down.
+         */
+        padding: 245px 30px 45px;
+
+
+        box-sizing: border-box;
+
+        justify-content: flex-start;
     }
 
-    .scroll-indicator span {
-        font-size: 21px;
+    .about-tag {
+        width: 100%;
+        max-width: 100%;
+
+        margin: 0 0 7px;
+
+        font-size: 6px;
+
+        line-height: 1.25;
+
+        letter-spacing: 1px;
+    }
+
+    .about h1 {
+        width: 100%;
+        max-width: 250px;
+
+        margin: 0 auto 11px;
+
+        font-size: 1.05rem;
+
+        line-height: 1.02;
+
+        font-weight: 600;
+
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+    .about-content p:not(.about-tag) {
+        width: 100%;
+        max-width: 250px;
+
+        margin: 0 auto 9px;
+
+        font-size: 0.47rem;
+
+        line-height: 1.35;
+
+        font-weight: 400;
+
+        overflow-wrap: break-word;
+
+        word-break: normal;
     }
 }
 
 
 /* ==================================================
-   VERY SMALL / SHORT SCREENS
-   ================================================== */
+   SMALL MOBILE
+================================================== */
 
 @media (max-width: 380px) {
 
-    .scroll-indicator {
-        width: 44px;
-        height: 44px;
+    .about-content {
+        width: 100%;
+        max-width: 100%;
 
-        bottom: max(14px, env(safe-area-inset-bottom));
+        /*
+         * Keep the same downward position,
+         * adjusted slightly for smaller screens.
+         */
+        padding: 270px 26px 40px;
+
+
     }
 
-    .scroll-indicator span {
-        font-size: 19px;
+    .about-tag {
+        font-size: 5.5px;
+
+        letter-spacing: 0.8px;
+
+        margin-bottom: 6px;
+    }
+
+    .about h1 {
+        max-width: 230px;
+
+        margin-bottom: 9px;
+
+        font-size: 0.95rem;
+
+        line-height: 1.02;
+    }
+
+    .about-content p:not(.about-tag) {
+        max-width: 230px;
+
+        font-size: 0.43rem;
+
+        line-height: 1.33;
+
+        margin-bottom: 8px;
     }
 }

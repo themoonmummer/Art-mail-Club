@@ -6,6 +6,8 @@
   position: relative;
 
   width: 100%;
+  max-width: 100vw;
+
   height: 100vh;
   min-height: 700px;
 
@@ -16,6 +18,11 @@
   background: #091524;
 
   color: #606f49;
+}
+
+.hero,
+.hero * {
+  box-sizing: border-box;
 }
 
 
@@ -79,14 +86,6 @@
 
 /* ==========================================
    SUNLIGHT
-==========================================
-
-   SINGLE LIGHT SOURCE.
-
-   The light originates from outside the
-   upper-right corner.
-
-   There is intentionally NO center light.
 ========================================== */
 
 .hero-sunlight {
@@ -240,6 +239,8 @@
   height: 100%;
 
   margin: 0 auto;
+
+  min-width: 0;
 }
 
 
@@ -255,6 +256,9 @@
   top: 50%;
 
   width: 390px;
+  max-width: 42%;
+
+  min-width: 0;
 
   transform:
     translateY(-50%);
@@ -264,6 +268,9 @@
 
 
 .hero-copy {
+  width: 100%;
+  max-width: 100%;
+
   padding:
     17px
     21px
@@ -347,6 +354,8 @@
 
     0 2px 8px
     rgba(70,70,40,.12);
+
+  overflow-wrap: break-word;
 }
 
 
@@ -355,6 +364,7 @@
 ========================================== */
 
 .hero-description {
+  width: 100%;
   max-width:
     350px;
 
@@ -433,7 +443,6 @@
     rgba(75,88,53,.25);
 }
 
-
 /* ==========================================
    WINDOW
 ========================================== */
@@ -441,8 +450,7 @@
 .hero-room {
   position: absolute;
 
-  right: 3%;
-
+  right: 25%;
   top: 50%;
 
   transform:
@@ -450,14 +458,14 @@
     scale(.88);
 
   transform-origin:
-    center;
+    center center;
 
   z-index: 30;
+  max-width: 100%;
 }
 
-
 /* ==========================================
-   RESPONSIVE
+   LARGE DESKTOP
 ========================================== */
 
 @media (min-width: 1100px) {
@@ -470,14 +478,26 @@
   .hero-content {
     left:
       1%;
+
+    max-width:
+      42%;
   }
 
   .hero-room {
     right:
-      2%;
+      2px;
+
+    transform:
+      translateY(-50%)
+      scale(.88);
   }
 }
 
+
+/* ==========================================
+   TABLET
+   1000px → 701px
+========================================== */
 
 @media (max-width: 1000px) {
 
@@ -489,10 +509,13 @@
       100svh;
 
     height:
-      auto;
+      100svh;
 
     padding:
-      72px 0 60px;
+      0;
+
+    overflow-x:
+      hidden;
   }
 
   .hero-scene {
@@ -500,47 +523,98 @@
       100%;
 
     height:
-      820px;
+      100%;
+
+    min-width:
+      0;
+
+    margin:
+      0;
+
+    overflow:
+      hidden;
   }
+
+
+  /* --------------------------------------
+     TEXT LEFT
+  -------------------------------------- */
 
   .hero-content {
     top:
-      105px;
-
-    left:
       50%;
 
+    left:
+      7%;
+
     width:
-      min(500px, 86vw);
+      39vw;
+
+    max-width:
+      39vw;
 
     transform:
-      translateX(-50%);
+      translateY(-50%);
 
     text-align:
-      center;
+      left;
+  }
+
+  .hero-copy {
+    width:
+      100%;
+
+    max-width:
+      100%;
   }
 
   .hero-description {
+    max-width:
+      100%;
+
     margin-left:
-      auto;
+      0;
 
     margin-right:
-      auto;
+      0;
   }
+
+
+  /* --------------------------------------
+     WINDOW RIGHT
+  -------------------------------------- */
 
   .hero-room {
     top:
-      480px;
-
-    right:
       50%;
 
+    right:
+      4px;
+
+    left:
+      auto;
+
+    /*
+     * Smaller than desktop but still beside
+     * the text.
+     */
     transform:
-      translateX(50%)
-      scale(.75);
+      translateY(-50%)
+      scale(.62);
+
+    transform-origin:
+      right center;
+
+    overflow:
+      hidden;
   }
 }
 
+
+/* ==========================================
+   PHONE
+   700px and below
+========================================== */
 
 @media (max-width: 700px) {
 
@@ -551,49 +625,519 @@
     min-height:
       100svh;
 
-    padding-top:
-      62px;
+    height:
+      100svh;
+
+    padding:
+      0;
+
+    overflow-x:
+      hidden;
   }
 
   .hero-scene {
+    width:
+      100%;
+
     height:
-      750px;
+      100%;
+
+    min-width:
+      0;
+
+    overflow:
+      hidden;
   }
+
+
+  /* --------------------------------------
+     TEXT LEFT
+  -------------------------------------- */
 
   .hero-content {
     top:
-      62px;
+      50%;
+
+    left:
+      6%;
 
     width:
-      90vw;
+      43vw;
+
+    max-width:
+      43vw;
+
+    transform:
+      translateY(-50%);
+
+    text-align:
+      left;
+  }
+
+  .hero-copy {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    padding:
+      13px
+      13px
+      15px;
+
+    border-radius:
+      14px;
+  }
+
+  .hero-tagline {
+    margin-bottom:
+      6px;
+
+    font-size:
+      8px;
+
+    letter-spacing:
+      1px;
+  }
+
+  .hero-content h1 {
+    margin-bottom:
+      10px;
+
+    font-size:
+      clamp(27px, 8vw, 38px);
+
+    line-height:
+      .98;
+
+    letter-spacing:
+      -1px;
+  }
+
+  .hero-description {
+    width:
+      100%;
+
+    max-width:
+      100%;
+
+    margin-bottom:
+      13px;
+
+    font-size:
+      11px;
+
+    line-height:
+      1.45;
+  }
+
+  .hero-button {
+    max-width:
+      100%;
+
+    padding:
+      9px 14px;
+
+    font-size:
+      10px;
+  }
+
+
+  /* --------------------------------------
+     WINDOW RIGHT
+  -------------------------------------- */
+
+  .hero-room {
+    top:
+      50%;
+
+    right:
+      10px;
+
+    left:
+      auto;
+
+    /*
+     * IMPORTANT:
+     *
+     * The window remains NEXT TO the text.
+     * It is simply scaled down enough to fit.
+     */
+    transform:
+      translateY(-50%)
+      scale(.43);
+
+    transform-origin:
+      right center;
+
+    overflow:
+      hidden;
+  }
+}
+
+
+/* ==========================================
+   SMALL PHONES
+   390px and below
+========================================== */
+
+@media (max-width: 390px) {
+
+  .hero-content {
+    left:
+      3%;
+
+    width:
+      44vw;
+
+    max-width:
+      44vw;
   }
 
   .hero-copy {
     padding:
-      14px
-      17px
-      17px;
+      11px
+      11px
+      13px;
+
+    border-radius:
+      13px;
+  }
+
+  .hero-tagline {
+    font-size:
+      7px;
+
+    letter-spacing:
+      .8px;
   }
 
   .hero-content h1 {
     font-size:
-      42px;
+      clamp(25px, 8vw, 34px);
   }
 
   .hero-description {
     font-size:
-      13.5px;
+      10px;
+
+    line-height:
+      1.4;
+  }
+
+  .hero-button {
+    padding:
+      8px 12px;
+
+    font-size:
+      9px;
+  }
+
+  .hero-room {
+    right:
+      0px;
+
+    transform:
+      translateY(-50%)
+      scale(.37);
+
+    transform-origin:
+      right center;
+
+    overflow:
+      hidden;
+  }
+}
+
+
+/* ==========================================
+   VERY SMALL PHONES
+   360px and below
+========================================== */
+
+@media (max-width: 360px) {
+
+  .hero-content {
+    left:
+      3%;
+
+    width:
+      45vw;
+
+    max-width:
+      45vw;
+  }
+
+  .hero-copy {
+    padding:
+      10px;
+  }
+
+  .hero-content h1 {
+    font-size:
+      25px;
+  }
+
+  .hero-description {
+    font-size:
+      9px;
+  }
+
+  .hero-room {
+    right:
+      0px;
+
+    transform:
+      translateY(-50%)
+      scale(.33);
+
+    transform-origin:
+      right center;
+  }
+}
+
+
+/* ==========================================
+   LANDSCAPE PHONES
+========================================== */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+  .hero {
+    min-height:
+      100svh;
+
+    height:
+      100svh;
+
+    overflow-x:
+      hidden;
+  }
+
+  .hero-scene {
+    width:
+      100%;
+
+    height:
+      100%;
+
+    overflow:
+      hidden;
+  }
+
+  .hero-content {
+    top:
+      50%;
+
+    left:
+      4%;
+
+    width:
+      40vw;
+
+    max-width:
+      40vw;
+
+    transform:
+      translateY(-50%);
   }
 
   .hero-room {
     top:
-      395px;
-
-    right:
       50%;
 
+    right:
+      0px;
+
+    left:
+      auto;
+
     transform:
-      translateX(50%)
-      scale(.59);
+      translateY(-50%)
+      scale(.40);
+
+    transform-origin:
+      right center;
+
+    overflow:
+      hidden;
+  }
+}
+
+
+/* ==========================================
+   REDUCED MOTION
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .hero-background,
+  .hero-sunlight,
+  .hero-sun-rays,
+  .hero-sun-wash,
+  .hero-button {
+    transition:
+      none;
+
+    animation:
+      none;
+  }
+}
+
+/* ==========================================
+   FINAL WINDOW SAFETY
+========================================== */
+
+@media (max-width: 1000px) {
+
+  .hero-room {
+    right: 4%;
+    top: 50%;
+
+    transform:
+      translateY(-50%)
+      scale(.62);
+
+    transform-origin:
+      right center;
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .hero-content {
+    left: 4%;
+    width: 43vw;
+    max-width: 43vw;
+  }
+
+  .hero-room {
+    right: 12px;
+    top: 50%;
+
+    transform:
+      translateY(-50%)
+      scale(.43);
+
+    transform-origin:
+      right center;
+  }
+}
+
+
+@media (max-width: 390px) {
+
+  .hero-content {
+    left: 4%;
+    width: 44vw;
+    max-width: 44vw;
+  }
+
+  .hero-room {
+    right: 6px;
+
+    transform:
+      translateY(-50%)
+      scale(.37);
+
+    transform-origin:
+      right center;
+  }
+}
+
+
+@media (max-width: 360px) {
+
+  .hero-content {
+    left: 3%;
+    width: 45vw;
+    max-width: 45vw;
+  }
+
+  .hero-room {
+    right: 8px;
+
+    transform:
+      translateY(-50%)
+      scale(.33);
+
+    transform-origin:
+      right center;
+  }
+}
+
+/* ==========================================
+   MOBILE LETTER FIX
+========================================== */
+
+@media (max-width: 700px) {
+
+  .hero-content {
+    left: 4%;
+    width: 46vw;
+    max-width: 46vw;
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(25px, 7.2vw, 36px);
+    letter-spacing: -0.8px;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .hero-description {
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+}
+
+
+/* ==========================================
+   SMALL PHONES
+========================================== */
+
+@media (max-width: 390px) {
+
+  .hero-content {
+    left: 3%;
+    width: 47vw;
+    max-width: 47vw;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(23px, 7vw, 32px);
+  }
+
+  .hero-description {
+    font-size: 9.5px;
+  }
+}
+
+
+/* ==========================================
+   VERY SMALL PHONES
+========================================== */
+
+@media (max-width: 360px) {
+
+  .hero-content {
+    left: 2.5%;
+    width: 48vw;
+    max-width: 48vw;
+  }
+
+  .hero-content h1 {
+    font-size: 23px;
+  }
+
+  .hero-description {
+    font-size: 9px;
   }
 }

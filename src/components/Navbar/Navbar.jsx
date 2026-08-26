@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 function Navbar({ variant = "default" }) {
   return (
     <nav className={`navbar navbar-${variant}`}>
-
       <div className="navbar-logo">
         <Link to="/">
           <h2>Art Mail Club</h2>
@@ -12,7 +11,6 @@ function Navbar({ variant = "default" }) {
       </div>
 
       <ul className="navbar-links">
-
         <li>
           <Link to="/">Home</Link>
         </li>
@@ -40,9 +38,7 @@ function Navbar({ variant = "default" }) {
         <li>
           <Link to="/profile">Profile</Link>
         </li>
-
       </ul>
-
     </nav>
   );
 }

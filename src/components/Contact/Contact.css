@@ -408,10 +408,9 @@
         0 8px 20px rgba(75, 18, 25, 0.2);
 }
 
-
 /* ==================================================
    TABLET
-   ================================================== */
+================================================== */
 
 @media (max-width: 900px) {
 
@@ -424,18 +423,47 @@
     }
 
     .contact-content {
-        padding-top: 35%;
+        width: 100%;
+
+        padding-top: 33%;
+        padding-left: 23px;
+        padding-right: 22px;
+        padding-bottom: 13%;
+
+        box-sizing: border-box;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
 
     .contact-card {
-        width: 72vw;
+        width: min(68vw, 500px);
+        max-width: calc(100vw - 45px);
+
+        margin-left: auto;
+        margin-right: auto;
+
+        box-sizing: border-box;
+    }
+
+    .contact-form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        max-width: 100%;
+
+        box-sizing: border-box;
     }
 }
 
-
 /* ==================================================
    MOBILE
-   ================================================== */
+================================================== */
 
 @media (max-width: 600px) {
 
@@ -448,69 +476,138 @@
     }
 
     .contact-content {
+        width: 100%;
+
         padding-top: 38%;
-
         padding-left: 16px;
-
         padding-right: 16px;
-
         padding-bottom: 18%;
+
+        box-sizing: border-box;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
 
+    /* SMALL CONTACT COMPOSITION */
     .contact-card {
-        width: 82vw;
+        width: 48vw;
+        max-width: 205px;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        box-sizing: border-box;
     }
 
     .contact-tag {
-        margin-bottom: 13px;
+        margin-bottom: 6px;
 
-        font-size: 10px;
-
-        letter-spacing: 2.4px;
+        font-size: 7px;
+        letter-spacing: 1.3px;
     }
 
     .contact h1 {
-        margin-bottom: 19px;
+        margin-bottom: 9px;
 
-        font-size: clamp(2rem, 9vw, 2.8rem);
+        font-size: clamp(1.2rem, 6vw, 1.55rem);
+
+        line-height: 1.02;
     }
 
     .contact-intro {
-        margin-bottom: 25px;
+        margin-bottom: 11px;
 
-        font-size: 0.92rem;
+        font-size: 0.62rem;
 
-        line-height: 1.7;
+        line-height: 1.4;
     }
 
     .contact-form {
-        gap: 12px;
+        width: 100%;
+        max-width: 100%;
+
+        gap: 5px;
+
+        box-sizing: border-box;
     }
 
     .contact-form input,
     .contact-form textarea {
-        padding: 13px 14px;
+        width: 100%;
+        max-width: 100%;
 
-        font-size: 14px;
+        padding: 6px 8px;
+
+        font-size: 9px;
+
+        box-sizing: border-box;
     }
 
     .contact-form textarea {
-        min-height: 110px;
+        min-height: 50px;
+    }
+
+    .contact-form button {
+        margin-top: 2px;
+
+        padding: 7px 12px;
+
+        font-size: 9px;
     }
 }
 
-
 /* ==================================================
    SMALL MOBILE
-   ================================================== */
+================================================== */
 
 @media (max-width: 380px) {
 
     .contact-content {
         padding-top: 40%;
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-bottom: 18%;
     }
 
     .contact-card {
         width: 86vw;
+        max-width: calc(100vw - 28px);
+
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .contact-tag {
+        font-size: 9px;
+        letter-spacing: 2px;
+    }
+
+    .contact h1 {
+        font-size: 1.75rem;
+    }
+
+    .contact-intro {
+        font-size: 0.82rem;
+        line-height: 1.6;
+    }
+
+    .contact-form {
+        gap: 10px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 11px 12px;
+        font-size: 13px;
+
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .contact-form textarea {
+        min-height: 95px;
     }
 }
