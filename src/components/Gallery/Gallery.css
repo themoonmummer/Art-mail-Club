@@ -1,89 +1,46 @@
-/* ==================================================
-   GALLERY PAGE
-   ================================================== */
-
 .gallery-page {
-  position: relative;
-
   width: 100%;
-
   min-height: 100vh;
-
+  position: relative;
   overflow: hidden;
-
   background: #201612;
 }
 
-
-/* ==================================================
-   PIN
-   ================================================== */
-
-.gallery-pin {
-  position: relative;
-
-  width: 100%;
-
-  height: 100vh;
-
-  overflow: hidden;
+.gallery-page::after {
+  content: "";
+  display: block;
+  height: 1px;
 }
-
-
-/* ==================================================
-   HORIZONTAL TRACK
-   ================================================== */
 
 .gallery-track {
   display: flex;
-
-  flex-direction: row;
-
-  width: 400vw;
-
   height: 100vh;
-
-  flex-wrap: nowrap;
-
-  /*
-   * VERY IMPORTANT:
-   * Prevent the browser from shrinking
-   * the rooms on smaller screens.
-   */
-  flex-shrink: 0;
-
-  align-items: stretch;
 }
-
-
-/* ==================================================
-   EACH ROOM
-   ================================================== */
 
 .gallery-section {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
   position: relative;
 
-  width: 100vw;
+  /*
+    Allow artwork to visually extend
+    beyond the room boundary.
+  */
+  overflow: visible;
 
-  min-width: 100vw;
-
-  max-width: 100vw;
-
-  height: 100vh;
-
-  min-height: 100vh;
-
-  flex: 0 0 100vw;
-
-  flex-shrink: 0;
-
-  overflow: hidden;
+  z-index: 1;
 }
 
 
-/* ==================================================
-   ROOM BACKGROUNDS
-   ================================================== */
+/*
+  The individual room components
+  provide their own wall/background.
+
+  Keeping these transparent prevents
+  the gallery sections from creating
+  separate colored boxes between rooms.
+*/
 
 .entrance,
 .letters,
@@ -93,10 +50,13 @@
 }
 
 
-/* ==================================================
-   BODY
-   ================================================== */
-
 body {
   overflow-x: hidden;
+}
+
+
+.gallery-pin {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
