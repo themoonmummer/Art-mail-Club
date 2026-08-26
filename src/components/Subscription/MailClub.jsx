@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import "./MailClub.css";
 
-import "./Mailclub.css";
 
 const MAIL_CLUB_MAILERS = [
   {
