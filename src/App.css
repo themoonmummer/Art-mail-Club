@@ -1,29 +1,153 @@
 /* =========================================================
    ART MAIL CLUB — GLOBAL APP STYLES
+   RESPONSIVE ONLY
    ========================================================= */
 
 /*
 =========================================================
-GLOBAL APP CONTAINER
+GLOBAL
 =========================================================
 */
 
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
 #root {
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 
 /*
 =========================================================
-RESPONSIVE MEDIA DEFAULTS
+MEDIA
 =========================================================
 */
 
+img,
+picture,
 video,
 canvas,
 svg {
   display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+
+/*
+=========================================================
+GLOBAL CONTENT CONTAINMENT
+=========================================================
+*/
+
+main,
+section,
+header,
+footer,
+nav,
+article,
+aside,
+div {
+  max-width: 100%;
+  min-width: 0;
+}
+
+
+/*
+=========================================================
+TEXT
+=========================================================
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+label,
+li {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+
+/*
+=========================================================
+FORMS
+=========================================================
+*/
+
+input,
+textarea,
+select,
+button {
+  max-width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+
+/*
+=========================================================
+TABLES
+=========================================================
+*/
+
+table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+
+/*
+=========================================================
+LINKS / BUTTONS
+=========================================================
+*/
+
+button,
+a {
   max-width: 100%;
 }
 
@@ -45,7 +169,7 @@ select {
 
 /*
 =========================================================
-FOCUS STATES
+FOCUS
 =========================================================
 */
 
@@ -61,7 +185,7 @@ select:focus-visible {
 
 /*
 =========================================================
-TEXT SELECTION
+SELECTION
 =========================================================
 */
 
@@ -73,7 +197,7 @@ TEXT SELECTION
 
 /*
 =========================================================
-SMOOTH RESPONSIVE BEHAVIOR
+REDUCED MOTION
 =========================================================
 */
 
@@ -91,7 +215,7 @@ SMOOTH RESPONSIVE BEHAVIOR
 
 /*
 =========================================================
-TABLET
+TABLET — <= 1024px
 =========================================================
 */
 
@@ -103,12 +227,27 @@ TABLET
     --fs-body: 15px;
   }
 
+  /*
+  Force common horizontal layouts to become shrinkable.
+  */
+  .row,
+  .flex-row {
+    max-width: 100%;
+  }
+
+  /*
+  Prevent fixed-width elements from escaping viewport.
+  */
+  [style*="width"],
+  [style*="min-width"] {
+    max-width: 100%;
+  }
 }
 
 
 /*
 =========================================================
-MOBILE
+MOBILE — <= 650px
 =========================================================
 */
 
@@ -121,12 +260,124 @@ MOBILE
     --fs-small: 13px;
   }
 
+  /*
+  Never allow viewport-sized elements to exceed screen.
+  */
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /*
+  Common containers.
+  */
+  main,
+  section,
+  header,
+  footer,
+  nav,
+  article,
+  aside {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /*
+  Flex/grid children must be allowed to shrink.
+  */
+  [class] {
+    min-width: 0;
+  }
+
+  /*
+  Horizontal flex layouts can wrap instead of
+  forcing horizontal scrolling.
+  */
+  [style*="display: flex"],
+  [style*="display:flex"] {
+    flex-wrap: wrap;
+  }
+
+  /*
+  Prevent fixed viewport-breaking dimensions.
+  */
+  [style*="width: 100vw"],
+  [style*="width:100vw"] {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /*
+  Responsive media.
+  */
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
+
+  /*
+  Long words / URLs / emails.
+  */
+  * {
+    overflow-wrap: anywhere;
+  }
+
+  /*
+  Form controls.
+  */
+  input,
+  textarea,
+  select,
+  button {
+    max-width: 100%;
+  }
 }
 
 
 /*
 =========================================================
-VERY SMALL PHONES
+SMALL PHONES — <= 480px
+=========================================================
+*/
+
+@media (max-width: 480px) {
+
+  :root {
+    --fs-heading: clamp(30px, 9vw, 38px);
+    --fs-subheading: clamp(18px, 6vw, 22px);
+    --fs-body: 15px;
+    --fs-small: 13px;
+  }
+
+  /*
+  Prevent fixed desktop dimensions from surviving
+  on small screens.
+  */
+  [style*="width"],
+  [style*="min-width"],
+  [style*="max-width"] {
+    max-width: 100%;
+  }
+
+  /*
+  Tables should never create page-level overflow.
+  */
+  table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+
+/*
+=========================================================
+VERY SMALL PHONES — <= 380px
 =========================================================
 */
 
@@ -139,4 +390,25 @@ VERY SMALL PHONES
     --fs-small: 12px;
   }
 
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /*
+  Make oversized controls/content shrink.
+  */
+  input,
+  textarea,
+  select,
+  button,
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
 }
