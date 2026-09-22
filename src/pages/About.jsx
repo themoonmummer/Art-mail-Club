@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import bg2Image from "../../src/assets/images/other/bg2.jpeg";
 import "../components/About/About.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
@@ -26,12 +26,11 @@ useEffect(() => {
       <main className="about">
        
        
-        <img
-          className="about-background"
-          src="/src/assets/images/other/bg2.jpeg"
-          alt=""
-        />
-
+       <img
+  className="about-background"
+  src={bg2Image.src || bg2Image}
+  alt="About section background"
+/>
         <div className="about-overlay" />
 
         <div className="about-content">
